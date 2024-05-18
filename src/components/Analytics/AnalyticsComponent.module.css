@@ -1,3 +1,20 @@
 .Wrapper{
-    
+    margin-left:200px ;
+    overflow: hidden;
+    padding: 100px;
+}
+
+.QuizDetails{
+
+}
+
+.tBody{
+    background-color: rgb(111, 111, 240);
+    border-radius: 12px;
+    color: black;
+}
+.tInvBody{
+    background-color: rgb(232, 232, 244);
+    border-radius: 12px;
+    color: black;
 }

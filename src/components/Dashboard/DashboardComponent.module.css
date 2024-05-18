@@ -1,4 +1,46 @@
 .Wrapper{
+    margin-left:200px ;
+    overflow: hidden;  
+    background: rgb(229, 224, 224);   
+    height: 100vh;  
+}
 
-    background-color: red;
+.Wrapper1{
+    display: flex;
+    flex-direction: row;    
+    padding: 100px;
+    gap:9rem;   
+}
+
+.Card{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 150px;
+    padding: 20px 20px 40px 40px;
+    border-radius: 12px;
+    background: #fff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 36px 0px rgba(0, 0, 0, 0.22);
+}
+
+.Details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Quiz{
+    display: flex;
+    flex-direction: column;
+    padding-left: 100px;
+}
+
+.QuizContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
 }

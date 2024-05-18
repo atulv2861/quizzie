@@ -15,6 +15,7 @@ import DashboardPanelComponent from "./components/DashboardPanel/DashboardPanelC
 import SidebarComponent from "./components/Sidebar/SidebarComponent";
 import AnalyticsComponent from "./components/Analytics/AnalyticsComponent";
 import CreateQuizComponent from "./components/CreateQuiz/CreateQuizComponent";
+import QuestionsAnalysisComponent from "./components/Analytics/QuestionAnalysis/QuestionsAnalysisComponent";
 import './App.css';
 
 function App() {
@@ -24,10 +25,11 @@ function App() {
         <Route path="/" element={<SignIn />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignIn />} />
-        <Route path="/dashboard-panel" element={<SidebarComponent />}>
+        <Route path="/dashboard-panel" element={<DashboardPanelComponent />}>
           <Route path="dashboard" element={<DashboardComponent />} />
           <Route path="analytics" element={<AnalyticsComponent />} />
           <Route path="create-quiz" element={<CreateQuizComponent />} />
+          <Route path="question-wise-analysis" element={QuestionsAnalysisComponent}/>
         </Route>
         {/*  */}
         {/* <Route path="*" element={<SignIn/>}/> */}
