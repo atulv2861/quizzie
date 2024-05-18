@@ -1,0 +1,11 @@
+.FormWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.FieldWrapper{
+    display: flex;
+    flex-direction: row;
+}

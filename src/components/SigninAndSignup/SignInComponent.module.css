@@ -1,0 +1,37 @@
+.Wrapper {
+    /* display: flex;
+    justify-content: center;
+    align-items: center;  
+    flex-direction: column;  
+    width: 500px;
+    height: 510px;
+    left:0;
+    right: 0;
+    top: 0;
+    bottom: 0; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 510px;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0px 4px 36px 0px rgba(0, 0, 0, 0.22);
+}
+
+.Heading{
+  display: flex;
+  justify-content: center;
+}
+
+.Btn{
+    display: flex;    
+    justify-content: space-around;
+    align-items: center;
+}
+
+.Form{
+    display: flex;
+    justify-content: center;
+}
