@@ -3,7 +3,7 @@ import congrates from "../../assets/congrates.svg";
 import Style from "./CongratesComponent.module.css";
 export default function CongratesComponent() {
     const [congratesPopupPosition, setCongratesPopupPosition] = useState();
-    const [quizType, setQuizType] = useState("QNA");
+    const [quizType, setQuizType] = useState("Q&A");
 
     useEffect(() => {
         let left = (window.innerWidth - 600) / 2;
@@ -15,7 +15,7 @@ export default function CongratesComponent() {
         <div className={Style.Wrapper}
             style={{ left: `${congratesPopupPosition?.left}px`, top: `${congratesPopupPosition?.top}px` }}>
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                {quizType === "QNA" ? <>
+                {quizType === "Q&A" ? <>
                     <div>
                         <h1>Congrates Quiz is Completed!</h1>
                     </div>
