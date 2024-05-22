@@ -53,7 +53,7 @@ export default function LiveQuizComponent() {
   }, [timer]);
 
   const formatTimer = (sec) => {
-    return sec < 10 ? `0${sec}` : sec;
+    return sec < 10 ? `00:0${sec}` : `00:${sec}`;
   };
 
     return (
@@ -64,7 +64,7 @@ export default function LiveQuizComponent() {
                     <div className={Style.Heading}>
                         <div><h3>0{item?.qno}/0{quizQuestion?.length}</h3></div>
                         {quizType==="Q&A"&&<div>
-                            <p style={{ color: "#FF5D01" }}>00:{formatTimer(timer)}s</p>
+                            <p style={{ color: "#FF5D01" }}>{formatTimer(timer)}s</p>
                         </div>}
                     </div>
                     <div><h3>{item?.question}</h3></div>
