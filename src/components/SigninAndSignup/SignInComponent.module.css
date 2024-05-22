@@ -1,19 +1,7 @@
-.Wrapper {
-    /* display: flex;
-    justify-content: center;
-    align-items: center;  
-    flex-direction: column;  
-    width: 500px;
-    height: 510px;
-    left:0;
-    right: 0;
-    top: 0;
-    bottom: 0; */
+.Wrapper {    
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 500px;
-    height: 510px;
     transform: translate(-50%, -50%);
     border-radius: 12px;
     background: #fff;
@@ -34,4 +22,21 @@
 .Form{
     display: flex;
     justify-content: center;
+}
+
+.Button{
+    width: 200px;
+    height: 35px;
+    font-weight: 600;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    background: #fff;    
+    
+}
+
+.BoxShadow{
+    box-shadow: 0px 4px 36px 0px rgba(0, 0, 0, 0.22);
 }

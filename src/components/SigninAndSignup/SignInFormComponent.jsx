@@ -8,15 +8,15 @@ export default function SignInFormComponent({setIsLoggedIn}){
     return(
         <div className={Style.FormWrapper}>        
         <div className={Style.FieldWrapper}>
-            <div>Email</div>
-            <div><input/></div>
+            <div className={Style.Label}>Email</div>
+            <div><input className={Style.InputBox}/></div>
         </div>
         <div className={Style.FieldWrapper}>
-            <div>Password</div>
-            <div><input/></div>
+            <div className={Style.Label}>Password</div>
+            <div><input className={Style.InputBox} style={{marginRight:"35px"}}/></div>
         </div>        
         <div>
-            <button onClick={handleSignIn}>Sign In</button>
+            <button className={Style.Button} onClick={handleSignIn}>Sign In</button>
         </div>
         </div>
     )

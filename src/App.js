@@ -15,6 +15,8 @@ import DashboardPanelComponent from "./components/DashboardPanel/DashboardPanelC
 import SidebarComponent from "./components/Sidebar/SidebarComponent";
 import AnalyticsComponent from "./components/Analytics/AnalyticsComponent";
 import CreateQuizComponent from "./components/CreateQuiz/CreateQuizComponent";
+import LiveQuizComponent from "./components/LiveQuiz/LiveQuizComponent";
+import CongratesComponent from "./components/LiveQuiz/CongratesComponent";
 import QuestionsAnalysisComponent from "./components/Analytics/QuestionAnalysis/QuestionsAnalysisComponent";
 import './App.css';
 
@@ -28,11 +30,11 @@ function App() {
         <Route path="/dashboard-panel" element={<DashboardPanelComponent />}>
           <Route path="dashboard" element={<DashboardComponent />} />
           <Route path="analytics" element={<AnalyticsComponent />} />
-          <Route path="create-quiz" element={<CreateQuizComponent />} />
-          <Route path="question-wise-analysis" element={QuestionsAnalysisComponent}/>
+          {/* <Route path="create-quiz" element={<CreateQuizComponent />} /> */}
+          <Route path="question-wise-analysis" element={<QuestionsAnalysisComponent/>}/>
         </Route>
-        {/*  */}
-        {/* <Route path="*" element={<SignIn/>}/> */}
+        <Route path="/live-quiz" element={<LiveQuizComponent />} />
+        <Route path="/congrates" element={<CongratesComponent/>}/>
       </Routes>
     </BrowserRouter>
   );

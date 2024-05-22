@@ -1,7 +1,9 @@
 .Wrapper{
     margin-left:200px ;
     overflow: hidden;
-    padding: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
+    
 }
 
 .QuizDetails{
@@ -9,7 +11,7 @@
 }
 
 .tBody{
-    background-color: rgb(111, 111, 240);
+    background-color: #B3C4FF;
     border-radius: 12px;
     color: black;
 }
@@ -18,3 +20,19 @@
     border-radius: 12px;
     color: black;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;    
+  }
+
+  th, td {
+    text-align: center;
+    padding: 8px;
+  }
+
+  .Link{
+    color: black;
+    font-size: 18px;
+  }
+

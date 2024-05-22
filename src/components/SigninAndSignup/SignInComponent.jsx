@@ -19,8 +19,8 @@ export default function SignInComponent(){
                 <h1>Quizzie</h1>
             </div>
             <div className={Style.Btn}>
-                <div><button onClick={e=>{setIsRegistered(false)}}>Sign Up</button></div>
-                <div><button onClick={e=>{setIsRegistered(true)}}>Sign In</button></div>            
+            <div><button className={`${Style.Button} ${!isRegistered&& Style.BoxShadow}` } onClick={e=>{setIsRegistered(false)}}>Sign Up</button></div>
+                <div><button className={`${Style.Button} ${isRegistered&& Style.BoxShadow}` } onClick={e=>{setIsRegistered(true)}}>Sign In</button></div>            
             </div>
             <div className={Style.Form}>
             {isRegistered?<SignInFormComponent setIsLoggedIn={setIsLoggedIn}/>:<SignUpFormComponent/>}
