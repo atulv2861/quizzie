@@ -5,7 +5,7 @@ export default function LiveQuizComponent() {
     const [questions, setQuestions] = useState([1]);
     const [currQuestion, setCurrQuestion] = useState(0);
     const [liveQuizPopupPosition, setLiveQuizPopupPosition] = useState();
-    const [quizType, setQuizType] = useState("Q&A");
+    const [quizType, setQuizType] = useState("!Q&A");
     const [timer, setTimer] = useState(5);
     const quizQuestion = [
         { qno: "1", question: "1. Your question text comes here, its a sample text.", optionType: "text", options: { option1: "abc", option2: "bcd", option3: "cde", option4: "def" } },

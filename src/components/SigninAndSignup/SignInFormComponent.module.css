@@ -46,3 +46,11 @@
     margin-top: 20px;
     background: #A9BCFF;    
 }
+
+.ErrorMsg{
+    outline: 3px solid red;    
+  }
+
+  .ErrorMsg::placeholder{
+    color: red;
+}
