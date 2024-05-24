@@ -83,6 +83,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
         values[selectedQuestion]['optionType'] = 'Text';
         setQuizQuestions(values);
     },[questions]);
+    
     const handleQuizQuestionChange = (indx,e) => {
         const values = [...quizQuestions];
         console.log(e.target.name)
