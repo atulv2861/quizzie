@@ -15,9 +15,9 @@ export default function QuestionsAnalysisComponent() {
   
     useEffect(() => {
         const initial=async()=>{
-        const quizDetails = quizByUserId?.quizzes.filter(item => item?._id === quizId);
+        const quizDetails = quizByUserId?.quizzes?.filter(item => item?._id === quizId);
         setQuiz(quizDetails);        
-        const data={quizType:quizDetails[0].quizType,quizId:quizId};     
+        const data={quizType:quizDetails[0]?.quizType,quizId:quizId};     
         await handleGetAssessmentDetails(data);
         const date = new Date(quizDetails[0]?.createdOn);
         const options = { day: '2-digit', month: 'short', year: 'numeric' };
@@ -28,7 +28,7 @@ export default function QuestionsAnalysisComponent() {
     }, []);
 
     useEffect(()=>{
-        if(assessmentDetails.success===true){
+        if(assessmentDetails?.success===true){
             setAssessment(assessmentDetails?.assessmentData);
         }
     },[assessmentDetails]);
