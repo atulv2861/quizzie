@@ -6,10 +6,12 @@ export default function QuizPopupComponent(
         setIsQuizPopupOpen,
         setIsCreateQuizPopupOpen,
         setQuizzieType,
-        quizzieType
+        quizzieType,
+        quizName,
+        setQuizName
     }
 ){
-    const [quizName,setQuizName]=useState();
+    
     const handleCancel=()=>{
         setIsQuizPopupOpen(false);
     }
@@ -19,8 +21,8 @@ export default function QuizPopupComponent(
         setIsCreateQuizPopupOpen(true)
     }
 
-    const handleQuizType=(e)=>{
-        setQuizzieType(e.target.innerText);
+    const handleQuizType=(value)=>{
+        setQuizzieType(value);
     }
 
     
@@ -41,8 +43,8 @@ export default function QuizPopupComponent(
             <div className={Style.BtnContainer}>
                 <div className={Style.QuizHeading}>Quiz Type</div>
                 <div className={Style.QuizType}>
-                    <button className={`${Style.Btn} ${quizzieType==="Q&A"&&Style.BtnTextColor}`} onClick={handleQuizType}>Q&A</button>
-                    <button className={`${Style.Btn} ${quizzieType==="Poll Type"&&Style.BtnTextColor}`} onClick={handleQuizType}>Poll Type</button>
+                    <button className={`${Style.Btn} ${quizzieType==="Q&A"&&Style.BtnTextColor}`} onClick={e=>handleQuizType('Q&A')}>Q&A</button>
+                    <button className={`${Style.Btn} ${quizzieType==="Poll_Type"&&Style.BtnTextColor}`} onClick={e=>handleQuizType('Poll_Type')}>Poll Type</button>
                 </div>
             </div>
             <div className={Style.BtnContainer}>

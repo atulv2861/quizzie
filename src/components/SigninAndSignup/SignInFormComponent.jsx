@@ -1,10 +1,15 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import Style from "./SignInFormComponent.module.css";
+import { useSelector } from "react-redux";
+import useUser from "../Hook/useUser";
+import { setStorage } from "../../Service/StorageService";
 export default function SignInFormComponent({setIsLoggedIn}){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [fieldErrors, setFieldErrors] = useState();
-    const handleSignIn=()=>{
+    const { userData } = useSelector((state) => state.user);
+    const {handleLoginUser}=useUser();
+    const handleSignIn=async()=>{
         const fieldErrors = {};
         if (!email.trim()) {
             fieldErrors.email = true;
@@ -16,9 +21,22 @@ export default function SignInFormComponent({setIsLoggedIn}){
             setFieldErrors(fieldErrors);
             return;
         }
-        setIsLoggedIn(true);
+        const data={email,password};
+        await handleLoginUser(data);       
         
     }
+
+    useEffect(() => {
+        const initial = () => {
+            if (userData?.user?.isLoggedIn) {                
+                setStorage("accessToken", JSON.stringify(userData.accessToken));
+                setStorage("user", JSON.stringify(userData.user));
+                setIsLoggedIn(true);
+            }
+        }
+        if (userData)
+            initial();
+    }, [userData]);
     return(
         <div className={Style.FormWrapper}>        
         <div className={Style.FieldWrapper}>

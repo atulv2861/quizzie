@@ -16,13 +16,21 @@ import {startGetAllQuizLoading,
     trendingQuizError,
     startDeleteQuizLoading,
     deleteQuizSuccess,
-    deleteQuizError} from "../../Store/Slice/QuizSlice";
+    deleteQuizError,
+    getQuizDetailsError,
+    startGetQuizDetailsLoading,
+    getQuizDetailsSuccess,
+    assessmentDetailsError,
+    startAssessmentDetailsLoading,
+    assessmentDetailsSuccess} from "../../Store/Slice/QuizSlice";
 import { createQuiz } from "../../Service/quiz/createQuiz";
 import { deleteQuiz } from "../../Service/quiz/deleteQuiz";
 import { getAllQuiz } from "../../Service/quiz/getAllQuiz";
 import { getQuizById } from "../../Service/quiz/getQuizById";
 import { getQuizByUserId } from "../../Service/quiz/getQuizByUserId";
 import { getTrendingQuiz } from "../../Service/quiz/getTrendingQuiz";
+import { getQuizDetails } from "../../Service/quiz/getQuizDetails";
+import { getAssessmentDetails } from "../../Service/quiz/getAssessmentDetails";
 
     const useQuiz = () => {
         const dispatch = useDispatch();
@@ -41,8 +49,7 @@ import { getTrendingQuiz } from "../../Service/quiz/getTrendingQuiz";
              try {
                dispatch(startDeleteQuizLoading());
                const res = await deleteQuiz(quizId);              
-               dispatch(deleteQuizSuccess(res.data));               
-               handleGetAllQuiz();                     
+               dispatch(deleteQuizSuccess(res.data));                                   
              } catch (error) {            
                dispatch(deleteQuizError(error));
              }
@@ -52,8 +59,7 @@ import { getTrendingQuiz } from "../../Service/quiz/getTrendingQuiz";
             try {
               dispatch(startCreateQuizLoading());
               const res = await createQuiz(data);
-              dispatch(createQuizSuccess(res.data)); 
-              handleGetAllQuiz();                     
+              dispatch(createQuizSuccess(res.data));                                  
             } catch (error) {
               dispatch(createQuizError(error));
             }
@@ -88,13 +94,35 @@ import { getTrendingQuiz } from "../../Service/quiz/getTrendingQuiz";
                 dispatch(trendingQuizError(error));                
             }
           }
+
+          const handleGetQuizDetails=async()=>{
+            try{
+              dispatch(startGetQuizDetailsLoading());
+              const res=await getQuizDetails();
+              dispatch(getQuizDetailsSuccess(res.data));
+            }catch(error){
+              dispatch(getQuizDetailsError(error))
+            }
+          }
+
+          const handleGetAssessmentDetails=async(data)=>{
+            try{
+              dispatch(startAssessmentDetailsLoading());
+              const res=await getAssessmentDetails(data);
+              dispatch(assessmentDetailsSuccess(res.data));
+            }catch(error){
+              dispatch(assessmentDetailsError(error))
+            }
+          }
         return{
             handleGetAllQuiz,
             handleDeleteQuiz,
             handleCreateQuiz,
             handleGetQuizById,
             handleGetQuizByUserId,
-            handleGetTrendingQuiz
+            handleGetTrendingQuiz,
+            handleGetQuizDetails,
+            handleGetAssessmentDetails
         };
     }
     export default useQuiz;

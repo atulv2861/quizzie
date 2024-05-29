@@ -7,11 +7,15 @@ export default function SignInComponent(){
     const [isLoggedIn,setIsLoggedIn]=useState(false);
     const [isRegistered,setIsRegistered]=useState(false);
     const navigate=useNavigate();
-    useEffect(()=>{
-        if(isLoggedIn)
+    useEffect(()=>{        
+        if(isLoggedIn){
             navigate("/dashboard-panel");
+        }            
     },[isLoggedIn]);
 
+    const handleSignUp=()=>{
+        setIsRegistered(false);       
+    }
 
     return(
         <div className={Style.Wrapper}>
@@ -19,11 +23,11 @@ export default function SignInComponent(){
                 <h1>Quizzie</h1>
             </div>
             <div className={Style.Btn}>
-            <div><button className={`${Style.Button} ${!isRegistered&& Style.BoxShadow}` } onClick={e=>{setIsRegistered(false)}}>Sign Up</button></div>
+            <div><button className={`${Style.Button} ${!isRegistered&& Style.BoxShadow}` } onClick={e=>handleSignUp()}>Sign Up</button></div>
                 <div><button className={`${Style.Button} ${isRegistered&& Style.BoxShadow}` } onClick={e=>{setIsRegistered(true)}}>Sign In</button></div>            
             </div>
             <div className={Style.Form}>
-            {isRegistered?<SignInFormComponent setIsLoggedIn={setIsLoggedIn}/>:<SignUpFormComponent/>}
+            {isRegistered?<SignInFormComponent setIsLoggedIn={setIsLoggedIn}/>:<SignUpFormComponent setIsRegistered={setIsRegistered}/>}
             </div>       
         </div>
     )

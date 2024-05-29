@@ -1,8 +1,8 @@
 import { securedAxiosInstance } from "../api";
 
-export const logoutUser = async () => {    
+export const getQuizDetails = async () => {    
     try {
-      return await securedAxiosInstance.post(`user/userLogout`);
+      return await securedAxiosInstance.get(`quiz/getQuizDetails`);
     } catch (error) {      
       return error.response;
     }

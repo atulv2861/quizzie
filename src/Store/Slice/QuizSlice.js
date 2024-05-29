@@ -5,7 +5,16 @@ const initialState = {
     isGetAllQuizLoading: false,
     getAllQuizError:null,
 
+    assessmentDetails:null,
+    isGetAssessmentDetailsLoading:false,
+    getAssessmentDetailsError:null,
+
+    isGetQuizDetailsLoading:false,                     
+    quizDetails:null,
+    getQuizDetailsError:null,
+
     isCreateQuizLoading: false,
+    createdQuiz:null,
     createQuizError: null,
 
     quizByUserId:null,
@@ -44,13 +53,29 @@ const quizSlice = createSlice({
             state.getAllQuizError = payload;
         },
 
+        // Get Quiz Details
+        startGetQuizDetailsLoading: (state) => {
+            state.isGetQuizDetailsLoading = true;
+            state.getQuizDetailsError = null;
+        },
+        getQuizDetailsSuccess: (state, { payload }) => {
+            state.isGetQuizDetailsLoading = false;                     
+            state.quizDetails = payload;
+            state.getQuizDetailsError=null;
+        },
+        getQuizDetailsError: (state, { payload }) => {
+            state.isGetQuizDetailsLoading = false;
+            state.getQuizDetailsError = payload;
+        },
+
         // Create Quiz
         startCreateQuizLoading: (state) => {
             state.isCreateQuizLoading = true;
             state.createQuizError = null;
         },
-        createQuizSuccess: (state) => {
+        createQuizSuccess: (state,{payload}) => {
             state.isCreateQuizLoading = false;
+            state.createdQuiz=payload;
             
         },
         createQuizError: (state, { payload }) => {
@@ -80,7 +105,8 @@ const quizSlice = createSlice({
         },
         quizByIdSuccess: (state,{payload}) => {
             state.isQuizByIdLoading = false;
-            state.quizByIdError=payload;
+            state.quizById=payload
+            state.quizByIdError=null;
             
         },
         quizByIdError: (state, { payload }) => {
@@ -95,6 +121,7 @@ const quizSlice = createSlice({
         },
         trendingQuizSuccess: (state,{payload}) => {
             state.isTrendingQuizLoading = false;
+            state.trendingQuiz=payload;
             state.trendingError=payload;
             
         },
@@ -115,6 +142,21 @@ const quizSlice = createSlice({
         deleteQuizError:(state,{payload})=>{
             state.isDeleteQuizLoading = true;
             state.deleteQuizError = payload;
+        },
+
+        //Get assessment details
+        startAssessmentDetailsLoading:(state)=>{
+            state.isGetAssessmentDetailsLoading=true;
+            state.getAssessmentDetailsError=null;
+        },
+        assessmentDetailsSuccess:(state,{payload})=>{
+            state.isGetAssessmentDetailsLoading=false;
+            state.assessmentDetails=payload;
+            state.getAssessmentDetailsError=null;
+        },
+        assessmentDetailsError:(state,{payload})=>{
+            state.isGetAssessmentDetailsLoading=false;
+            state.getAssessmentDetailsError=payload;
         }
     }
 });
@@ -122,9 +164,15 @@ const quizSlice = createSlice({
 export default quizSlice.reducer;
 
 export const {
+    startAssessmentDetailsLoading,
+    assessmentDetailsSuccess,
+    assessmentDetailsError,
     startGetAllQuizLoading,
     getAllQuizSuccess,
     getAllQuizError,
+    startGetQuizDetailsLoading,
+    getQuizDetailsSuccess,
+    getQuizDetailsError,
     startCreateQuizLoading,
     createQuizSuccess,
     createQuizError,

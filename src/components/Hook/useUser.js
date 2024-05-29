@@ -8,10 +8,10 @@ import {userRegistrationLoading,
     userLogoutLoading,
     userLogoutSuccess,
     userLogoutError} from "../../Store/Slice/UserSlice";
-    import handleGetAllStories from "../Hooks/useStories"
-    import {registerUser} from "../../service/user/registerUser";
-    import { loginUser } from "../../service/user/loginUser";
-    import { logoutUser } from "../../service/user/logoutUser";
+    import handleGetAllQuiz from "../Hook/useQuiz"
+    import {registerUser} from "../../Service/user/registerUser";
+    import { loginUser } from "../../Service/user/loginUser";
+    import { logoutUser } from "../../Service/user/logoutUser";
 
     const useUser = () => {
         const dispatch = useDispatch();
@@ -20,8 +20,7 @@ import {userRegistrationLoading,
             try {
                 dispatch(userRegistrationLoading());                
                 const res = await registerUser(data);                           
-                dispatch(userRegistrationSuccess(res.data));  
-                handleGetAllStories();                             
+                dispatch(userRegistrationSuccess(res.data));                                            
             } catch (error) {              
                 dispatch(userRegistrationError(error));                
             }
@@ -31,17 +30,16 @@ import {userRegistrationLoading,
             try {
               dispatch(userLoginLoading());
               const res = await loginUser(data);              
-              dispatch(userLoginSuccess(res.data));               
-              handleGetAllStories();                     
+              dispatch(userLoginSuccess(res.data));                                  
             } catch (error) {            
               dispatch(userLoginError(error));
             }
           };
 
-          const handleLogoutUser = async (userId) => {
+          const handleLogoutUser = async () => {
             try {
               dispatch(userLogoutLoading());
-              const res = await logoutUser(userId);
+              const res = await logoutUser();
               dispatch(userLogoutSuccess(res.data));                     
             } catch (error) {
               dispatch(userLogoutError(error));

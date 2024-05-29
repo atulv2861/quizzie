@@ -48,9 +48,9 @@ const userSlice = createSlice({
             state.isUserLogoutLoading = true;
             state.userLogoutError = null;
         },
-        userLogoutSuccess: (state) => {
+        userLogoutSuccess: (state,{ payload }) => {
             state.isUserLogoutLoading = false;
-            state.userData = null;
+            state.userData = payload;
             state.userLogoutError = null;
         },
         userLogoutError: (state, { payload }) => {

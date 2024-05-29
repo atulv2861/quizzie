@@ -1,32 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Style from "./QuestionsAnalysisComponent.module.css";
 import QuestionComponent from "../Questions/QuestionComponent";
 import PollQuestionComponent from "../Questions/PollQuestionComponent";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import useQuiz from "../../Hook/useQuiz";
 export default function QuestionsAnalysisComponent() {
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    const [quiz, setQuiz] = useState([]);  
+    const [createdOn, setCreatedDate] = useState();
+    const[assessment,setAssessment]=useState([]);
+    const { quizId } = useParams();
+    const { quizByUserId, assessmentDetails} = useSelector(state => state.quiz);
+    const {handleGetAssessmentDetails}=useQuiz();
+  
     useEffect(() => {
-        
-    }, [])
+        const initial=async()=>{
+        const quizDetails = quizByUserId?.quizzes.filter(item => item?._id === quizId);
+        setQuiz(quizDetails);        
+        const data={quizType:quizDetails[0].quizType,quizId:quizId};     
+        await handleGetAssessmentDetails(data);
+        const date = new Date(quizDetails[0]?.createdOn);
+        const options = { day: '2-digit', month: 'short', year: 'numeric' };
+        const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(date);
+        setCreatedDate(formattedDate);      
+        }
+        initial();
+    }, []);
+
+    useEffect(()=>{
+        if(assessmentDetails.success===true){
+            setAssessment(assessmentDetails?.assessmentData);
+        }
+    },[assessmentDetails]);
+  
     return (
-    <div className={Style.Wrapper}>
-        <div className={Style.Heading}>
-            <div style={{color:"#5076FF"}}><h1>Quiz2 Question Analysis</h1></div>
-            <div style={{color:"#FF5D01"}}><p style={{marginBottom:"-10px"}}>
-                Created On : 18 May 2024
-            </p>
-                <p>Impressions : 667</p>
+        <div className={Style.Wrapper}>
+            <div className={Style.Heading}>
+                <div style={{ color: "#5076FF" }}><h1>{quiz && quiz[0]?.quizName} Question Analysis</h1></div>
+                <div style={{ color: "#FF5D01" }}><p style={{ marginBottom: "-10px" }}>
+                    Created On : {createdOn}
+                </p>
+                    <p>Impressions : {quiz && quiz[0]?.impression}</p>
+                </div>
+            </div>
+            <div>
+                {quiz && quiz[0]?.quizType === 'Q&A' && quiz[0].quizQuestions.map((item,indx) => (
+                    <>                    
+                        <QuestionComponent item={assessment?.filter(value=>value?.questionId==item?._id)} />
+                        {quiz[0].quizQuestions?.length!==(indx+1)&&<hr style={{ width: "82%", marginRight: "300px", marginBottom: "40px", size: "16", color: "black" }} />}
+                        
+                    </>
+                ))}
+            </div>
+
+            <div>
+                {quiz && quiz[0]?.quizType === 'Poll_Type' && quiz[0].quizQuestions.map((item,indx) => (<>
+                    <PollQuestionComponent item={assessment?.filter(value=>value?.questionId==item?._id)} />
+                    {quiz[0].quizQuestions?.length!==(indx+1)&&<hr style={{width:"86%", marginRight:"400px", marginBottom:"40px", size:"16", color:"black"}}/>}
+                    </>
+                ))}
             </div>
         </div>
-        <div>
-            {arr.map((item,index)=>(
-                <QuestionComponent item={item}/>
-            ))}
-        </div>
-        <div>
-            {arr.map((item,index)=>(
-                <PollQuestionComponent item={item}/>
-            ))}
-        </div>
-    </div>
     )
 }

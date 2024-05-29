@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import Style from "./CreateQuizComponent.module.css";
 import del from "../../assets/delete.svg";
 import cross from "../../assets/cross.svg";
-export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsConfirmQuizPopupOpen, quizzieType }) {
+import useQuiz from "../Hook/useQuiz";
+import { useSelector } from "react-redux";
+import getStorage from "../../Service/StorageService";
+export default function CreateQuizComponent({ 
+    setIsCreateQuizPopupOpen, 
+    setIsConfirmQuizPopupOpen, 
+    quizzieType,
+    quizName }) {
     const [createQuizPopupPosition, setCreateQuizPopupPosition] = useState();
     const [questions, setQuestions] = useState([1]);
     const [noOfOptions, setNoOfOptions] = useState([1, 2]);
@@ -13,6 +20,8 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
         { question: '', optionType: '', options: [], answer: '', timer: 0 }
       ]);
     const [timer,setTimer]=useState('0');
+    const {handleCreateQuiz, handleGetQuizByUserId}=useQuiz();
+    const { createdQuiz } = useSelector((state) => state.quiz);
   const handleRadioChange = (indx) => {    
     setSelectedRadioBtn(indx);
   };
@@ -22,11 +31,27 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
 
     }
 
-    const handleCreateQuiz = () => {
-        setIsCreateQuizPopupOpen(false);
-        setIsConfirmQuizPopupOpen(true);
-
+    const handleCreateQuizzes = async() => {
+        const data={
+            quizName:quizName,
+            quizType:quizzieType,
+            quizQuestions:quizQuestions
+        }
+        await handleCreateQuiz(data);
     }
+
+    useEffect(()=>{
+        const initial =async()=>{
+            const user = JSON.parse(getStorage("user"));
+            if(createdQuiz?.isCreated && user){
+                setIsCreateQuizPopupOpen(false);
+                setIsConfirmQuizPopupOpen(true);
+                await handleGetQuizByUserId(user?._id);                
+            }           
+        }
+        initial();       
+    },[createdQuiz]);
+
     useEffect(() => {
         let left = (window.innerWidth - 700) / 2;
         let top = (window.innerHeight - 550) / 2;
@@ -163,7 +188,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                 {optionType === "Text" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
                         item <= 2 ?
-                            <div className="radio-label">
+                            <div className="radio-label" key={indx}>
                                 <input 
                                 type="radio" 
                                 style={{ color: "red" }} 
@@ -178,10 +203,11 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                                 placeholder="Text"  
                                 name="options"  
                                 value={quizQuestions[selectedQuestion]?.options[indx]} 
-                                onChange={e=>handleQuizQuestionChange(indx,e)}                            
+                                onChange={e=>handleQuizQuestionChange(indx,e)}  
+                                autoComplete="off"                          
                                 />
                             </div> :
-                            <div className="radio-label">
+                            <div className="radio-label" key={indx}>
                                  <input 
                                 type="radio" 
                                 style={{ color: "red" }} 
@@ -196,7 +222,8 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                                 placeholder="Text"   
                                 name="options"  
                                 value={quizQuestions[selectedQuestion]?.options[indx]} 
-                                onChange={e=>handleQuizQuestionChange(indx,e)}                               
+                                onChange={e=>handleQuizQuestionChange(indx,e)} 
+                                autoComplete="off"                               
                                 />
                                 <img 
                                 src={del} 
@@ -349,7 +376,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                 {optionType === "Text" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
                         item <= 2 ?
-                            <div className="radio-label">
+                            <div className="radio-label" key={indx}>
                                 <input 
                                 type="radio" 
                                 style={{ color: "red" }} 
@@ -367,7 +394,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                               
                                 />
                             </div> :
-                            <div className="radio-label">
+                            <div className="radio-label" key={indx}>
                                 <input 
                                 type="radio" 
                                 style={{ color: "red" }} 
@@ -401,7 +428,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                 {optionType === "ImageUrl" && <div className={Style.AddOptions}>
                 {noOfOptions && noOfOptions?.map((item, indx) => (
                         item <= 2 ?
-                            <div className="radio-label">
+                            <div className="radio-label" key={indx}>
                                 <input 
                                 type="radio" 
                                 style={{ color: "red" }} 
@@ -419,7 +446,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                              
                                 />
                             </div> :
-                            <div className="radio-label">
+                            <div className="radio-label" key={indx}>
                                 <input 
                                 type="radio" 
                                 style={{ color: "red" }} 
@@ -453,7 +480,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                 {optionType === "Text_ImageUrl" && <div className={Style.AddOptions}>
                 {noOfOptions && noOfOptions?.map((item, indx) => (
                         item <= 2 ?
-                            <div className="radio-label">
+                            <div className="radio-label" key={indx}>
                                 <input 
                                 type="radio" 
                                 style={{ color: "red" }} 
@@ -479,7 +506,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                                
                                 />
                             </div> :
-                            <div className="radio-label">
+                            <div className="radio-label" key={indx}>
                                 <input 
                                 type="radio" 
                                 style={{ color: "red" }} 
@@ -521,7 +548,7 @@ export default function CreateQuizComponent({ setIsCreateQuizPopupOpen, setIsCon
             </div>}
             <div className={Style.CancelnCreateBtn}>
                 <button className={Style.Button} onClick={handleCancel}>Cancel</button>
-                <button className={Style.Button} style={{ background: "#60B84B", color: "white" }} onClick={handleCreateQuiz}>Create Quiz</button>
+                <button className={Style.Button} style={{ background: "#60B84B", color: "white" }} onClick={handleCreateQuizzes}>Create Quiz</button>
             </div>
         </div>
     )

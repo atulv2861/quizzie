@@ -15,6 +15,7 @@ export default function DashboardPanelComponent() {
     const [ iscreateQuizPopupOpen, setIsCreateQuizPopupOpen]=useState(false);
     const [isConfirmQuizPopupOpen,setIsConfirmQuizPopupOpen]=useState(false);
     const [quizzieType,setQuizzieType]=useState("Q&A");
+    const [quizName,setQuizName]=useState();
     const navigate=useNavigate();
     useEffect(()=>{
         let left = (window.innerWidth - 450) / 2;
@@ -37,11 +38,14 @@ export default function DashboardPanelComponent() {
     setIsQuizPopupOpen={setIsQuizPopupOpen}
     setIsCreateQuizPopupOpen={setIsCreateQuizPopupOpen}
     setQuizzieType={setQuizzieType}
-    quizzieType={quizzieType}/>}
+    quizzieType={quizzieType}
+    setQuizName={setQuizName}
+    quizName={quizName}/>}
    {iscreateQuizPopupOpen&&<CreateQuizComponent
    setIsCreateQuizPopupOpen={setIsCreateQuizPopupOpen}
    setIsConfirmQuizPopupOpen={setIsConfirmQuizPopupOpen}
-   quizzieType={quizzieType}/>}
+   quizzieType={quizzieType}
+   quizName={quizName}/>}
    {isConfirmQuizPopupOpen&&<ConfirmQuizComponent
    setIsConfirmQuizPopupOpen={setIsConfirmQuizPopupOpen}
    />}
@@ -55,7 +59,7 @@ export default function DashboardPanelComponent() {
             <Routes>
                 <Route path="dashboard" element={<DashboardComponent />} />
                 <Route path="analytics" element={<AnalyticsComponent />} />                
-                <Route path="question-wise-analysis" element={<QuestionsAnalysisComponent/>}/>                
+                <Route path="question-wise-analysis/:quizId" element={<QuestionsAnalysisComponent/>}/>                
             </Routes>
         </div>
     </div>

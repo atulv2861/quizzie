@@ -7,18 +7,32 @@ import edit from "../../assets/edit.svg";
 import remove from "../../assets/delete.svg";
 import share from "../../assets/share.svg";
 import { toast } from "react-toastify";
+import useQuiz from "../Hook/useQuiz";
+import { useSelector } from "react-redux";
+import getStorage from "../../Service/StorageService";
 export default function AnalyticsComponent() {
     const[isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen]=useState(false);
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    const { quizByUserId } = useSelector(state => state.quiz);    
+    const { handleGetQuizByUserId,handleDeleteQuiz} = useQuiz();   
+
     useEffect(() => {
+        const initial = async () => {
+            const user = JSON.parse(getStorage("user"));
+            if(user){
+                await handleGetQuizByUserId(user?._id);
+            }                      
+        }
+        initial();
+    }, []);   
+   
 
-    }, []);
-
-    const handleDeletePopup=()=>{
+    const handleDeletePopup=async(id)=>{
+        //await handleDeleteQuiz(id);
         setIsConfirmDeletePopupOpen(true);
     }
 
-    const handleLinkShare=()=>{
+    const handleLinkShare=(id)=>{
+        navigator.clipboard.writeText(`http://localhost:3000/live-quiz/${id}`);
         toast.success('Link copied to Clipboard');
     }
     return (<>
@@ -44,18 +58,18 @@ export default function AnalyticsComponent() {
                     </thead>
                     <tbody>
                         {
-                            arr.map((item,index) =>(
-                                <tr className={item%2===0?Style.tBody:Style.tInvBody}>
-                                    <td>{item}</td>
-                                    <td> Quiz Name</td>
-                                    <td>Created On</td>
-                                    <td>Impression</td>
+                            quizByUserId?.quizzes?.map((item,index) =>(
+                                <tr className={(index+1)%2===0?Style.tBody:Style.tInvBody}>
+                                    <td>{index+1}</td>
+                                    <td> {item.quizName}</td>
+                                    <td>{item.createdOn}</td>
+                                    <td>{item.impression}</td>
                                     <td>
                                         <img src={edit} alt=""/>
-                                        <img src={remove} onClick={handleDeletePopup} alt=""/>
-                                        <img src={share} onClick={handleLinkShare} alt=""/>
+                                        <img src={remove} onClick={e=>handleDeletePopup(item?._id)} alt=""/>
+                                        <img src={share} onClick={e=>handleLinkShare(item?._id)} alt=""/>
                                     </td>
-                                    <td><Link className={Style.Link} to="/dashboard-panel/question-wise-analysis">Question Wise Analysis</Link></td>
+                                    <td><Link className={Style.Link} to={`/dashboard-panel/question-wise-analysis/${item?._id}`}>Question Wise Analysis</Link></td>
                                 </tr>)
                             )
                         }

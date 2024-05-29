@@ -27,13 +27,13 @@ function App() {
         <Route path="/" element={<SignIn />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignIn />} />
-        <Route path="/dashboard-panel" element={<DashboardPanelComponent />}>
+        <Route path="/dashboard-panel/*" element={<DashboardPanelComponent />}>
           <Route path="dashboard" element={<DashboardComponent />} />
           <Route path="analytics" element={<AnalyticsComponent />} />
           {/* <Route path="create-quiz" element={<CreateQuizComponent />} /> */}
-          <Route path="question-wise-analysis" element={<QuestionsAnalysisComponent/>}/>
+          <Route path="question-wise-analysis/:quizId" element={<QuestionsAnalysisComponent/>}/>
         </Route>
-        <Route path="/live-quiz" element={<LiveQuizComponent />} />
+        <Route path="/live-quiz/:id" element={<LiveQuizComponent />} />
         <Route path="/congrates" element={<CongratesComponent/>}/>
       </Routes>
     </BrowserRouter>

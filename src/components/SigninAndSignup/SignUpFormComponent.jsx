@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Style from "./SignUpFormComponent.module.css";
-export default function SignUpFormComponent(){
+import useUser from "../Hook/useUser";
+import { useSelector } from "react-redux";
+export default function SignUpFormComponent({setIsRegistered}){
     const [name,setName]=useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword,setConfirmPassword]=useState("");
     const [fieldErrors, setFieldErrors] = useState();
-    const handleSignUp=()=>{
+    const { userData } = useSelector((state) => state.user);
+    const {handleRegisterUser}=useUser();
+    const handleSignUp= async()=>{
         const fieldErrors = {};
         if (!name.trim()) {
             fieldErrors.name = true;
@@ -24,7 +28,22 @@ export default function SignUpFormComponent(){
             setFieldErrors(fieldErrors);
             return;
         }
+        const data={
+            name,
+            email,
+            password
+        }
+        await handleRegisterUser(data);
     }
+
+    useEffect(() => {
+        const initial = () => {
+            if (userData?.data?.isLoggedIn) {
+                setIsRegistered(true);                
+            }
+        }
+        initial();
+    }, [userData]);
     return(
         <div className={Style.FormWrapper}>
         <div className={Style.FieldWrapper}>
