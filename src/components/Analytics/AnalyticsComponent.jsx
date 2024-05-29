@@ -42,6 +42,12 @@ export default function AnalyticsComponent() {
            
     }
 
+    const formatedDate=(dateStr)=>{
+        const date = new Date(dateStr);
+        const options = { day: '2-digit', month: 'short', year: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-GB', options).replace(',', '');
+        return formattedDate;
+    }
     const handleLinkShare=(id)=>{
         navigator.clipboard.writeText(`http://localhost:3000/live-quiz/${id}`);
         toast.success('Link copied to Clipboard');
@@ -74,7 +80,7 @@ export default function AnalyticsComponent() {
                                 <tr className={(index+1)%2===0?Style.tBody:Style.tInvBody}>
                                     <td>{index+1}</td>
                                     <td> {item.quizName}</td>
-                                    <td>{item.createdOn}</td>
+                                    <td>{formatedDate(item.createdOn)}</td>
                                     <td>{item.impression}</td>
                                     <td>
                                         <img src={edit} alt=""/>

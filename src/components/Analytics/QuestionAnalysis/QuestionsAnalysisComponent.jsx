@@ -56,7 +56,7 @@ export default function QuestionsAnalysisComponent() {
             <div>
                 {quiz && quiz[0]?.quizType === 'Poll_Type' && quiz[0].quizQuestions.map((item,indx) => (<>
                     <PollQuestionComponent item={assessment?.filter(value=>value?.questionId==item?._id)} />
-                    {quiz[0].quizQuestions?.length!==(indx+1)&&<hr style={{width:"86%", marginRight:"400px", marginBottom:"40px", size:"16", color:"black"}}/>}
+                    {quiz[0]?.quizQuestions?.length!==(indx+1)&&<hr style={{width:"86%", marginRight:"400px", marginBottom:"40px", size:"16", color:"black"}}/>}
                     </>
                 ))}
             </div>
