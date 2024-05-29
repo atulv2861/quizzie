@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Style from "./ConfirmQuizPopupComponent.module.css";
 import cross from "../../assets/cross.svg"
 import { toast } from "react-toastify";
-export default function ConfirmQuizPopupComponent({ setIsConfirmQuizPopupOpen }) {
+export default function ConfirmQuizPopupComponent({ setIsConfirmQuizPopupOpen,quizId}) {
     const [confirmQuizPopupPosition, setConfirmQuizPopupPosition] = useState();
 
     const handleClose = () => {
@@ -10,7 +10,7 @@ export default function ConfirmQuizPopupComponent({ setIsConfirmQuizPopupOpen })
     }
 
     const handleShareQuiz = () => {
-        navigator.clipboard.writeText('https://quizzie-5wrf.onrender.com/live-quiz');
+        navigator.clipboard.writeText(`https://quizzie-5wrf.onrender.com/live-quiz/${quizId}`);
         toast.success('Link copied to clipboard');
     }
 

@@ -15,6 +15,7 @@ export default function DashboardPanelComponent() {
     const [ iscreateQuizPopupOpen, setIsCreateQuizPopupOpen]=useState(false);
     const [isConfirmQuizPopupOpen,setIsConfirmQuizPopupOpen]=useState(false);
     const [quizzieType,setQuizzieType]=useState("Q&A");
+    const [quizId,setQuizId]=useState(null);
     const [quizName,setQuizName]=useState();
     const navigate=useNavigate();
     useEffect(()=>{
@@ -45,10 +46,11 @@ export default function DashboardPanelComponent() {
    setIsCreateQuizPopupOpen={setIsCreateQuizPopupOpen}
    setIsConfirmQuizPopupOpen={setIsConfirmQuizPopupOpen}
    quizzieType={quizzieType}
-   quizName={quizName}/>}
+   quizName={quizName}
+   setQuizId={setQuizId}/>}
    {isConfirmQuizPopupOpen&&<ConfirmQuizComponent
    setIsConfirmQuizPopupOpen={setIsConfirmQuizPopupOpen}
-   />}
+   quizId={quizId}/>}
     <div style={{opacity:isQuizPopupOpen||iscreateQuizPopupOpen||isConfirmQuizPopupOpen?'0.4':'1'}}>
 
         <div className={Style.Wrapper}

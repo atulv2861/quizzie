@@ -9,7 +9,8 @@ export default function CreateQuizComponent({
     setIsCreateQuizPopupOpen, 
     setIsConfirmQuizPopupOpen, 
     quizzieType,
-    quizName }) {
+    quizName,
+    setQuizId }) {
     const [createQuizPopupPosition, setCreateQuizPopupPosition] = useState();
     const [questions, setQuestions] = useState([1]);
     const [noOfOptions, setNoOfOptions] = useState([1, 2]);
@@ -44,6 +45,7 @@ export default function CreateQuizComponent({
         const initial =async()=>{
             const user = JSON.parse(getStorage("user"));
             if(createdQuiz?.isCreated && user){
+                setQuizId(createdQuiz?.quiz?._id);
                 setIsCreateQuizPopupOpen(false);
                 setIsConfirmQuizPopupOpen(true);
                 await handleGetQuizByUserId(user?._id);                

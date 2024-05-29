@@ -30,6 +30,7 @@ const initialState = {
     trendingError:null,
 
     isDeleteQuizLoading:false,
+    deletedQuiz:null,
     deleteQuizError:null
 
 };
@@ -137,7 +138,8 @@ const quizSlice = createSlice({
         },
         deleteQuizSuccess:(state,{payload})=>{
             state.isDeleteQuizLoading = true;
-            state.deleteQuizError = payload;
+            state.deletedQuiz=payload;
+            state.deleteQuizError = null;
         },
         deleteQuizError:(state,{payload})=>{
             state.isDeleteQuizLoading = true;

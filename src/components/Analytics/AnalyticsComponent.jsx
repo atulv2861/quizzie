@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import getStorage from "../../Service/StorageService";
 export default function AnalyticsComponent() {
     const[isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen]=useState(false);
+    const[quizId,setQuizId]=useState(null);
     const { quizByUserId } = useSelector(state => state.quiz);    
     const { handleGetQuizByUserId,handleDeleteQuiz} = useQuiz();   
 
@@ -27,8 +28,18 @@ export default function AnalyticsComponent() {
    
 
     const handleDeletePopup=async(id)=>{
-        //await handleDeleteQuiz(id);
+        setQuizId(id);
         setIsConfirmDeletePopupOpen(true);
+        // if(isDeleted){
+        //     await handleDeleteQuiz(id);
+        //     setIsConfirmDeletePopupOpen(true);
+        //     toast.success('Quiz deleted successfully!');
+        //     const user = JSON.parse(getStorage("user"));
+        //     if(user){
+        //         await handleGetQuizByUserId(user?._id);
+        //     } 
+        // }
+           
     }
 
     const handleLinkShare=(id)=>{
@@ -38,6 +49,7 @@ export default function AnalyticsComponent() {
     return (<>
     {isConfirmDeletePopupOpen&&<ConfirmDeletePopupComponent 
     setIsConfirmDeletePopupOpen={setIsConfirmDeletePopupOpen}
+    quizId={quizId}
     />}
         <div className={Style.Wrapper}
         style={{opacity:isConfirmDeletePopupOpen?'0.4':'1'}}>

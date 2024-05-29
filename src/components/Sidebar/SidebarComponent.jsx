@@ -20,8 +20,7 @@ export default function SidebarComponent({ setIsQuizPopupOpen }) {
 
     useEffect(() => {
         const initial = () => {
-            if (userData?.isLogout) { 
-                alert("000")
+            if (userData?.isLogout) {                 
                 removeStorage("accessToken");
                 removeStorage("user");
                 navigate("/");
