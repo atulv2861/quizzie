@@ -59,7 +59,8 @@ export default function CreateQuizComponent({
         let top = (window.innerHeight - 550) / 2;
         setCreateQuizPopupPosition({ left: left, top: top });
         
-    }, [])
+    }, []);
+
 
     const addQuestions = () => {
         const noOfQuestions = questions.length;

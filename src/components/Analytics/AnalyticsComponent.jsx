@@ -49,8 +49,8 @@ export default function AnalyticsComponent() {
         return formattedDate;
     }
     const handleLinkShare=(id)=>{
-        //navigator.clipboard.writeText(`https://quizzie-5wrf.onrender.com/live-quiz/${id}`);
-        navigator.clipboard.writeText(`http://localhost:3000/live-quiz/${id}`);
+        navigator.clipboard.writeText(`https://quizzie-5wrf.onrender.com/live-quiz/${id}`);
+        //navigator.clipboard.writeText(`http://localhost:3000/live-quiz/${id}`);
         toast.success('Link copied to Clipboard');
     }
     return (<>
