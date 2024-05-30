@@ -61,6 +61,17 @@ export default function CreateQuizComponent({
         
     }, []);
 
+    useEffect(()=>{        
+        const question=quizQuestions[selectedQuestion];
+        const option = question?.options;        
+        const answer=question?.answer;
+        const optionSize=option?.length;
+        const indxOfAns=option?.indexOf(answer);    
+        const arr = Array.from({ length: optionSize?optionSize:2 }, (v, i) => i);
+        setNoOfOptions(arr);
+        if(option[0]?.length>0 ||option[1]?.length>0)
+            setSelectedRadioBtn(indxOfAns);
+    },[selectedQuestion]);
 
     const addQuestions = () => {
         const noOfQuestions = questions.length;

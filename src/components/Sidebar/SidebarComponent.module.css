@@ -25,6 +25,7 @@
     text-decoration: none;
     color: black;
     cursor: default;
+    cursor: pointer;
 }
 
 .Highlited{

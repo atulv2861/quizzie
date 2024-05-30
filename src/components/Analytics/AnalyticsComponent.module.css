@@ -6,8 +6,8 @@
     
 }
 
-.QuizDetails{
-
+.Cursor{
+  cursor: pointer;
 }
 
 .tBody{
@@ -34,5 +34,6 @@ table {
   .Link{
     color: black;
     font-size: 18px;
+    cursor: pointer;
   }
 

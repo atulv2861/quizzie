@@ -84,9 +84,9 @@ export default function AnalyticsComponent() {
                                     <td>{formatedDate(item.createdOn)}</td>
                                     <td>{item.impression}</td>
                                     <td>
-                                        <img src={edit} alt=""/>
-                                        <img src={remove} onClick={e=>handleDeletePopup(item?._id)} alt=""/>
-                                        <img src={share} onClick={e=>handleLinkShare(item?._id)} alt=""/>
+                                        <img className={Style.Cursor} src={edit} alt=""/>
+                                        <img className={Style.Cursor} src={remove} onClick={e=>handleDeletePopup(item?._id)} alt=""/>
+                                        <img className={Style.Cursor} src={share} onClick={e=>handleLinkShare(item?._id)} alt=""/>
                                     </td>
                                     <td><Link className={Style.Link} to={`/dashboard-panel/question-wise-analysis/${item?._id}`}>Question Wise Analysis</Link></td>
                                 </tr>)

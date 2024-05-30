@@ -42,12 +42,12 @@ export default function SidebarComponent({ setIsQuizPopupOpen }) {
                 <div className={selected==='Dashboard'&&Style.Highlited} onClick={e=>handleClick(e)}><Link className={Style.Link} to="/dashboard-panel/dashboard">Dashboard</Link></div>
                 <div className={selected==='Analytics'&&Style.Highlited} onClick={e=>handleClick(e)}><Link className={Style.Link} to="/dashboard-panel/analytics">Analytics</Link></div>
                 {/* <div onClick={handleQuizPopup}><Link to="/dashboard-panel/create-quiz">Create Quiz</Link>Create Quiz</div>                */}
-                <div className={selected==='Create Quiz'&&Style.Highlited} onClick={e=>{handleClick(e); handleQuizPopup()}}>Create Quiz</div>
+                <div className={selected==='Create Quiz'&&Style.Highlited} style={{cursor:"pointer"}} onClick={e=>{handleClick(e); handleQuizPopup()}}>Create Quiz</div>
             </div>
 
             <div>
                 <hr style={{ width: "80%", marginRight: "50px", marginBottom: "-20px", size: "8", color: "black" }} />
-                <h3 onClick={e=>handleLogout()}>LOGOUT</h3></div>
+                <h3 onClick={e=>handleLogout()} style={{cursor:"pointer"}}>LOGOUT</h3></div>
         </div>
     );
 }
