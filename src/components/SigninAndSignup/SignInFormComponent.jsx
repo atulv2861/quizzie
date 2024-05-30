@@ -10,8 +10,9 @@ export default function SignInFormComponent({setIsLoggedIn}){
     const { userData } = useSelector((state) => state.user);
     const {handleLoginUser}=useUser();
     const handleSignIn=async()=>{
+        const res = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const fieldErrors = {};
-        if (!email.trim()) {
+        if (!email.trim() || !res.test(email)) {
             fieldErrors.email = true;
         }
         if (!password.trim()) {

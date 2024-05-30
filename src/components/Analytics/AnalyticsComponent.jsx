@@ -49,8 +49,8 @@ export default function AnalyticsComponent() {
         return formattedDate;
     }
     const handleLinkShare=(id)=>{
-        navigator.clipboard.writeText(`https://quizzie-5wrf.onrender.com/live-quiz/${id}`);
-        //navigator.clipboard.writeText(`http://localhost:3000/live-quiz/${id}`);
+        //navigator.clipboard.writeText(`https://quizzie-5wrf.onrender.com/live-quiz/${id}`);
+        navigator.clipboard.writeText(`http://localhost:3000/live-quiz/${id}`);
         toast.success('Link copied to Clipboard');
     }
     return (<>
@@ -61,7 +61,7 @@ export default function AnalyticsComponent() {
         <div className={Style.Wrapper}
         style={{opacity:isConfirmDeletePopupOpen?'0.4':'1'}}>
             <div style={{display:"flex",justifyContent:"center", color:"#5076FF"}}>
-                <h1>Quiz Analysis</h1>
+                <h2>Quiz Analysis</h2>
             </div>
             <div className={Style.QuizDetails}>
                 <table>

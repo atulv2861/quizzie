@@ -36,7 +36,7 @@ export default function SidebarComponent({ setIsQuizPopupOpen }) {
     return (
         <div className={Style.Sidebar}>
             <div>
-                <h1>Quizzie</h1>
+                <h1>QUIZZIE</h1>
             </div>
             <div className={Style.Container} >
                 <div className={selected==='Dashboard'&&Style.Highlited} onClick={e=>handleClick(e)}><Link className={Style.Link} to="/dashboard-panel/dashboard">Dashboard</Link></div>
@@ -47,7 +47,7 @@ export default function SidebarComponent({ setIsQuizPopupOpen }) {
 
             <div>
                 <hr style={{ width: "80%", marginRight: "50px", marginBottom: "-20px", size: "8", color: "black" }} />
-                <h2 onClick={e=>handleLogout()}>Logout</h2></div>
+                <h3 onClick={e=>handleLogout()}>LOGOUT</h3></div>
         </div>
     );
 }

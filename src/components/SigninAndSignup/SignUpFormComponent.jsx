@@ -11,11 +11,12 @@ export default function SignUpFormComponent({setIsRegistered}){
     const { userData } = useSelector((state) => state.user);
     const {handleRegisterUser}=useUser();
     const handleSignUp= async()=>{
+        const res = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const fieldErrors = {};
         if (!name.trim()) {
             fieldErrors.name = true;
         }
-        if (!email.trim()) {
+        if (!email.trim() || !res.test(email)) {
             fieldErrors.email = true;
         }
         if (!password.trim()) {
@@ -42,7 +43,7 @@ export default function SignUpFormComponent({setIsRegistered}){
 
     useEffect(() => {
         const initial = () => {
-            if (userData?.success) {
+            if (userData?.user?.isLoggedIn) {                
                 setIsRegistered(true);                
             }
         }

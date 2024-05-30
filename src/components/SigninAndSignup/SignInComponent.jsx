@@ -23,7 +23,7 @@ export default function SignInComponent(){
 
 
     const handleSignUp=()=>{
-        setIsRegistered(false);       
+        setIsRegistered(false);          
     }
 
     return(

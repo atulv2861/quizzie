@@ -90,11 +90,11 @@ export default function LiveQuizComponent() {
                 assessment: result
             };
         }
-
-        let res = null;
-        if (result.length > 0)
-            res = await quizAssessment(data);
-        if(res)
+        let res = null;        
+        res = await quizAssessment(data);
+        console.log(res);
+        console.log("============================96")
+        if(res?.data?.success)
             setIsCongratesPopupOpen(true);
     }
 
@@ -127,7 +127,7 @@ export default function LiveQuizComponent() {
                 setCurrQuestion((currQuestion) => currQuestion + 1);
                 setTimer(quizById?.quiz?.quizQuestions[currQuestion]?.timer);
 
-                if (quizById?.quiz?.quizQuestions?.length === currQuestion + 1) {
+                if (quizById?.quiz?.quizQuestions?.length === currQuestion+1) {
                     handleSubmit();
                 }
             }

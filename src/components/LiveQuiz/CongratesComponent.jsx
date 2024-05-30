@@ -31,7 +31,7 @@ export default function CongratesComponent(score) {
                     <div>
                         <img className={Style.Img} src={congrates} alt="" />
                     </div>
-                    <div>Your Score is <span style={{background:"#60B84B"}}>0{score?.score}/0{quizById?.quiz?.quizQuestions?.length}</span></div>
+                    <div>Your Score is <span style={{color:"#60B84B"}}>0{score?.score}/0{quizById?.quiz?.quizQuestions?.length}</span></div>
                 </>} 
                 {quizById?.quiz?.quizType==='Poll_Type'&&<div className={Style.Heading} style={{marginTop:"175px", paddingLeft:"50px", paddingRight:"50px"}}>
                     Thank you
