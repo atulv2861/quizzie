@@ -16,7 +16,7 @@ export default function DashboardPanelComponent() {
     const [isConfirmQuizPopupOpen,setIsConfirmQuizPopupOpen]=useState(false);
     const [quizzieType,setQuizzieType]=useState("Q&A");
     const [quizId,setQuizId]=useState(null);
-    const [quizName,setQuizName]=useState();
+    const [quizName,setQuizName]=useState(null);
     const navigate=useNavigate();
     useEffect(()=>{
         let left = (window.innerWidth - 450) / 2;

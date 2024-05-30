@@ -24,6 +24,10 @@ export default function SignUpFormComponent({setIsRegistered}){
         if (!confirmPassword.trim()) {
             fieldErrors.confirmPassword = true;
         }
+        if(password.trim()!==confirmPassword.trim()){
+            fieldErrors.confirmPassword = true;
+        }
+
         if (Object.keys(fieldErrors).length > 0) {
             setFieldErrors(fieldErrors);
             return;
@@ -38,7 +42,7 @@ export default function SignUpFormComponent({setIsRegistered}){
 
     useEffect(() => {
         const initial = () => {
-            if (userData?.data?.isLoggedIn) {
+            if (userData?.success) {
                 setIsRegistered(true);                
             }
         }

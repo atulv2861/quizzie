@@ -49,7 +49,7 @@ export default function QuizPopupComponent(
             </div>
             <div className={Style.BtnContainer}>
             <button className={Style.Button} onClick={handleCancel}>Cancel</button>
-            <button className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button>
+            <button disabled={quizName?false:true} className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button>
             </div>
         </div>
     )

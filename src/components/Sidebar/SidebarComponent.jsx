@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import Style from "./SidebarComponent.module.css";
 import useUser from "../Hook/useUser";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { removeStorage } from "../../Service/StorageService";
 export default function SidebarComponent({ setIsQuizPopupOpen }) {
+    const[selected,setSelected]=useState('Dashboard');
     const { handleLogoutUser } = useUser();
     const { userData } = useSelector((state) => state.user);
     const navigate=useNavigate();
@@ -28,16 +29,20 @@ export default function SidebarComponent({ setIsQuizPopupOpen }) {
         }       
             initial();
     }, [userData]);
+
+    const handleClick=(e)=>{        
+        setSelected(e.currentTarget.textContent)
+    }
     return (
         <div className={Style.Sidebar}>
             <div>
                 <h1>Quizzie</h1>
             </div>
-            <div className={Style.Container}>
-                <div><Link className={Style.Link} to="/dashboard-panel/dashboard">Dashboard</Link></div>
-                <div><Link className={Style.Link} to="/dashboard-panel/analytics">Analytics</Link></div>
+            <div className={Style.Container} >
+                <div className={selected==='Dashboard'&&Style.Highlited} onClick={e=>handleClick(e)}><Link className={Style.Link} to="/dashboard-panel/dashboard">Dashboard</Link></div>
+                <div className={selected==='Analytics'&&Style.Highlited} onClick={e=>handleClick(e)}><Link className={Style.Link} to="/dashboard-panel/analytics">Analytics</Link></div>
                 {/* <div onClick={handleQuizPopup}><Link to="/dashboard-panel/create-quiz">Create Quiz</Link>Create Quiz</div>                */}
-                <div onClick={handleQuizPopup}>Create Quiz</div>
+                <div className={selected==='Create Quiz'&&Style.Highlited} onClick={e=>{handleClick(e); handleQuizPopup()}}>Create Quiz</div>
             </div>
 
             <div>

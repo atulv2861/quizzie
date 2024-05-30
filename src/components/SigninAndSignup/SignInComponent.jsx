@@ -3,15 +3,24 @@ import { useNavigate } from "react-router-dom";
 import Style from "./SignInComponent.module.css";
 import SignUpFormComponent from "./SignUpFormComponent";
 import SignInFormComponent from "./SignInFormComponent";
+import getStorage from "../../Service/StorageService";
+import { useSelector } from "react-redux";
 export default function SignInComponent(){
     const [isLoggedIn,setIsLoggedIn]=useState(false);
     const [isRegistered,setIsRegistered]=useState(false);
+    const {userData}=useSelector(state=>state.user);
     const navigate=useNavigate();
-    useEffect(()=>{        
-        if(isLoggedIn){
-            navigate("/dashboard-panel");
-        }            
-    },[isLoggedIn]);
+
+    useEffect(() => {
+        const initial = () => {
+            const user=JSON.parse(getStorage("user"));
+            if (user?.isLoggedIn) {                
+                navigate("/dashboard-panel");
+            }
+        }        
+            initial();
+    }, [userData]);
+
 
     const handleSignUp=()=>{
         setIsRegistered(false);       
