@@ -31,9 +31,7 @@
     height: 50px;
     padding: 10px 10px 10px 10px;
     border-radius: 12px;
-    background: #fff;
-    /* margin-top: 20px;
-    margin-bottom: 20px; */
+    background: #fff;  
     box-shadow: 0px 4px 36px 0px rgba(0, 0, 0, 0.22);
 }
 
@@ -62,49 +60,57 @@ align-items: center;
 
 @media only screen and (max-width: 460px) {
     .Wrapper{
-        overflow-x: hidden;
+        overflow: hidden;
         position: fixed;
-        width: 460px;
-        max-height: 750px;
+        width: 400px;
+        max-height: 550px;
         border-radius: 12px;
         background: #fff;
         box-shadow: 0px 4px 36px 0px rgba(0, 0, 0, 0.22);
         z-index: 99;  
-        padding: 5px;
+        padding: 20px;
     }
-
+    
+    .Wrapper1{   
+        display: flex;
+        flex-direction: row; 
+        flex-wrap: wrap;  
+        justify-content: center;
+        align-items: center;
+        /* padding-left: 100px; */
+        padding-right: 100px;
+        gap:50px;
+        margin-top: 40px;
+    }
+    
     .Heading{
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-between;       
+        padding-right: 25px;
     }
-
-
-    .Wrapper1{   
-        display: flex;
-        flex-direction: column;   
-        justify-content: space-evenly;
-    }
-    
-   
     
     .Card{   
         width: 150px;
         height: 50px;
         padding: 10px 10px 10px 10px;
         border-radius: 12px;
-        background: #fff;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        background: #fff;  
         box-shadow: 0px 4px 36px 0px rgba(0, 0, 0, 0.22);
     }
     
-    .Details{
+    .SelectedOption{
+        outline: 2px solid #60B84B;
+    }
     
+    .Details{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     }
     
     .Button{
-        width: 80px;
+        width: 200px;
         height: 35px;
         border: none;
         outline: none;
@@ -114,5 +120,6 @@ align-items: center;
         background: #60B84B;
         box-shadow: 0px 4px 36px 0px rgba(0, 0, 0, 0.22);
     }
+    
     
   }

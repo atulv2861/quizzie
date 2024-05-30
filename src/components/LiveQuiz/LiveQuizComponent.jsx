@@ -77,7 +77,7 @@ export default function LiveQuizComponent() {
                 return {
                     _id: obj1Item.qId,
                     // option: obj1Item.option,
-                    option: optionIndex !== -1 ? optionIndex+1 : 'Not found'
+                    option: optionIndex !== -1 ? optionIndex + 1 : 'Not found'
                 };
                 //} 
             });
@@ -92,110 +92,113 @@ export default function LiveQuizComponent() {
         }
 
         let res = null;
-     if(result.length>0)
-         res=await quizAssessment(data);
-     console.log(res)
-    console.log("============================65")
-
-    setIsCongratesPopupOpen(true);
+        if (result.length > 0)
+            res = await quizAssessment(data);
+        if(res)
+            setIsCongratesPopupOpen(true);
     }
 
-    
-
-useEffect(() => {
-    let left = (window.innerWidth - 600) / 2;
-    let top = (window.innerHeight - 550) / 2;
-    setLiveQuizPopupPosition({ left: left, top: top });
-}, []);
 
 
-let ref = useRef(null);
-useEffect(() => {
-    const initial = () => {
-        if (timer == questions?.timer) {
-            clearInterval(ref.current);
-            ref.current = setInterval(() => {
-                setTimer(prevSeconds => prevSeconds - 1);
-            }, 1000);
-            return () => clearInterval(ref.current);
-        } else if (timer == 0) {
-            setSelectedOption(null);
-            setCurrQuestion((currQuestion) => currQuestion + 1);
-            setTimer(quizById?.quiz?.quizQuestions[currQuestion]?.timer);
-
-            if (quizById?.quiz?.quizQuestions?.length === currQuestion + 1) {
-                handleSubmit();
-            }
+    useEffect(() => {
+        if (window.innerWidth <= 460) {
+            let left = (window.innerWidth - 400) / 2;
+            let top = (window.innerHeight - 550) / 2;
+            setLiveQuizPopupPosition({ left: left, top: top });
+        } else {
+            let left = (window.innerWidth - 600) / 2;
+            let top = (window.innerHeight - 550) / 2;
+            setLiveQuizPopupPosition({ left: left, top: top });
         }
-        console.log(questions?.timer);
-        if (questions?.timer <= 0)
-            clearInterval(ref.current);
+    }, [window.innerWidth]);
+
+
+    let ref = useRef(null);
+    useEffect(() => {
+        const initial = () => {
+            if (timer == questions?.timer) {
+                clearInterval(ref.current);
+                ref.current = setInterval(() => {
+                    setTimer(prevSeconds => prevSeconds - 1);
+                }, 1000);
+                return () => clearInterval(ref.current);
+            } else if (timer == 0) {
+                setSelectedOption(null);
+                setCurrQuestion((currQuestion) => currQuestion + 1);
+                setTimer(quizById?.quiz?.quizQuestions[currQuestion]?.timer);
+
+                if (quizById?.quiz?.quizQuestions?.length === currQuestion + 1) {
+                    handleSubmit();
+                }
+            }
+            console.log(questions?.timer);
+            if (questions?.timer <= 0)
+                clearInterval(ref.current);
+        }
+        if (quizById?.quiz?.quizType === 'Q&A')
+            initial();
+    }, [timer, quizById]);
+
+    const formatTimer = (sec) => {
+        return sec < 10 ? `00:0${sec}` : `00:${sec}`;
+    };
+
+    const handleOptionSelection = (qId, indx) => {        
+        let data = { qId: qId, option: questions?.options[indx] };
+        setQuestionAndOption([...questionAndOption, data]);
+        setSelectedOption(indx);
     }
-    if (quizById?.quiz?.quizType === 'Q&A')
-        initial();
-}, [timer, quizById]);
-
-const formatTimer = (sec) => {
-    return sec < 10 ? `00:0${sec}` : `00:${sec}`;
-};
-
-const handleOptionSelection = (qId, indx) => {
-    console.log(qId + "================" + indx)
-    let data = { qId: qId, option: questions?.options[indx] };
-    setQuestionAndOption([...questionAndOption, data]);
-    setSelectedOption(indx);
-}
-//console.log(questions)
-return (<>
-    {isCongratesPopupOpen && <CongratesComponent score={score} />}
-    {!isCongratesPopupOpen && <div className={Style.Wrapper}
-        style={{ left: `${liveQuizPopupPosition?.left}px`, top: `${liveQuizPopupPosition?.top}px` }}>
-        <>
-            <div className={Style.Heading}>
-                <div><h3>0{currQuestion + 1}/0{quizById?.quiz?.quizQuestions?.length}</h3></div>
-                {quizById?.quiz?.quizType === "Q&A" && questions?.timer > 0 && <div>
-                    <p style={{ color: "#FF5D01" }}>{formatTimer(timer)}s</p>
-                </div>}
+    
+    return (<>
+        {isCongratesPopupOpen && <CongratesComponent score={score} />}
+        {!isCongratesPopupOpen && <div className={Style.Wrapper}
+            style={{ left: `${liveQuizPopupPosition?.left}px`, top: `${liveQuizPopupPosition?.top}px` }}>
+            <>
+                <div className={Style.Heading}>
+                    <div><h3>0{currQuestion + 1}/0{quizById?.quiz?.quizQuestions?.length}</h3></div>
+                    {quizById?.quiz?.quizType === "Q&A" && questions?.timer > 0 && <div>
+                        <p style={{ color: "#FF5D01" }}>{formatTimer(timer)}s</p>
+                    </div>}
+                </div>
+                <div className={Style.Question}><h3>{questions?.question}</h3></div>
+                <div className={Style.Wrapper1}>
+                    {questions?.optionType === "Text" && <>
+                        {questions?.options?.map((item, indx) => (
+                            <div className={`${Style.Card} ${selectedOption === indx && Style.SelectedOption}`}
+                                onClick={e => handleOptionSelection(questions?._id, indx)}>
+                                <div className={Style.Details}>
+                                    <p>{item}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </>}
+                    {questions?.optionType === "ImageUrl" && <>
+                        {questions?.options?.map((item, indx) => (
+                            <div className={Style.Card}>
+                                <div className={Style.Details}>
+                                    <img src={item} alt="option" />
+                                </div>
+                            </div>
+                        ))}
+                    </>}
+                    {questions?.optionType === "Text-ImageUrl" && <>
+                        {questions?.options?.map((item, indx) => (
+                            <div className={Style.Card}>
+                                <div className={Style.Details}>
+                                    <p>{item?.option}</p>
+                                    <img src={item?.image} alt="option" />
+                                </div>
+                            </div>
+                        ))}
+                    </>}
+                </div>
+            </>
+            <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+                {quizById?.quiz?.quizQuestions?.length === currQuestion + 1 ?
+                    <button className={Style.Button} onClick={handleSubmit}>Submit</button> :
+                    <button className={Style.Button} onClick={handleNext}>Next</button>}
             </div>
-            <div><h3>{questions?.question}</h3></div>
-            <div className={Style.Wrapper1}>
-                {questions?.optionType === "Text" && <>
-                    {questions?.options?.map((item, indx) => (
-                        <div className={`${Style.Card} ${selectedOption === indx && Style.SelectedOption}`}
-                            onClick={e => handleOptionSelection(questions?._id, indx)}>
-                            <div className={Style.Details}>
-                                <p>{item}</p>
-                            </div>
-                        </div>
-                    ))}
-                </>}
-                {questions?.optionType === "ImageUrl" && <>
-                    {questions?.options?.map((item, indx) => (
-                        <div className={Style.Card}>
-                            <div className={Style.Details}>
-                                <img src={item} alt="option" />
-                            </div>
-                        </div>
-                    ))}
-                </>}
-                {questions?.optionType === "Text-ImageUrl" && <>
-                    {questions?.options?.map((item, indx) => (
-                        <div className={Style.Card}>
-                            <div className={Style.Details}>
-                                <p>{item?.option}</p>
-                                <img src={item?.image} alt="option" />
-                            </div>
-                        </div>
-                    ))}
-                </>}
-            </div>
-        </>
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
-            {quizById?.quiz?.quizQuestions?.length === currQuestion + 1 ?
-                <button className={Style.Button} onClick={handleSubmit}>Submit</button> :
-                <button className={Style.Button} onClick={handleNext}>Next</button>}
-        </div>
-    </div>}
-</>
-)
+        </div>}
+    </>
+    )
 }
