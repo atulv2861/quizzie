@@ -40,8 +40,6 @@ export default function LiveQuizComponent() {
     }
 
     const handleSubmit = async () => {
-        console.log(questionAndOption);
-        console.log("============================================44")
         let obj1 = questionAndOption;
         let obj2 = quizById?.quiz?.quizQuestions;
         let result = null;
@@ -51,15 +49,12 @@ export default function LiveQuizComponent() {
                 .filter(item2 => obj1.some(item1 => item1.qId === item2._id))
                 .map(item2 => {
                     const item1 = obj1.find(item1 => item1.qId === item2._id);
-                    console.log(item1)
-                    console.log(item2)
                     return {
                         _id: item2._id,
                         isCorrect: item2.optionType === "Text_ImageUrl" ? item1?.option?.text === item2?.answer?.text && item1?.option?.img === item2?.answer?.img : item1.option === item2.answer
                     };
                 });
-            console.log("==============================58")
-            console.log(result)
+            
             data = {
                 quizId: quizById?.quiz?._id,
                 quizType: quizById?.quiz?.quizType,
@@ -91,8 +86,6 @@ export default function LiveQuizComponent() {
                 //} 
             });
 
-            console.log("==============================81")
-            console.log(result)
             data = {
                 quizId: quizById?.quiz?._id,
                 quizType: quizById?.quiz?.quizType,
@@ -101,8 +94,7 @@ export default function LiveQuizComponent() {
         }
         let res = null;
         res = await quizAssessment(data);
-        console.log(res);
-        console.log("============================96")
+    
         if (res?.data?.success)
             setIsCongratesPopupOpen(true);
     }
@@ -140,7 +132,7 @@ export default function LiveQuizComponent() {
                     handleSubmit();
                 }
             }
-            console.log(questions?.timer);
+          
             if (questions?.timer <= 0)
                 clearInterval(ref.current);
         }

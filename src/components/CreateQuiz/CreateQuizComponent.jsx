@@ -13,7 +13,7 @@ export default function CreateQuizComponent({
     setQuizId,
     setQuizName }) {
     const [createQuizPopupPosition, setCreateQuizPopupPosition] = useState();
-    const [questions, setQuestions] = useState([1]);
+    const [questions, setQuestions] = useState([0]);
     const [noOfOptions, setNoOfOptions] = useState([1, 2]);
     const [optionType, setOptionType] = useState("Text");
     const [selectedQuestion, setSelectedQuestion] = useState(0);
@@ -75,10 +75,9 @@ export default function CreateQuizComponent({
         const arr = Array.from({ length: optionSize?optionSize:2 }, (v, i) => i);
         console.log(arr)
         setNoOfOptions(arr);
-        if(optionType==="Text_ImageUrl"){
-            alert("9999999")
+        if(optionType==="Text_ImageUrl"){            
             const indxOfAns = option.findIndex(item => item.text === answer.text && item.img === answer.img); 
-            alert(indxOfAns)
+            
             setSelectedRadioBtn(indxOfAns);
             return; 
         }        
@@ -87,32 +86,34 @@ export default function CreateQuizComponent({
     },[selectedQuestion]);
 
     const addQuestions = (e) => {
-        console.log(e)
-        const noOfQuestions = questions.length;
+        console.log(questions)
+        const noOfQuestions = questions[questions.length-1];
         setQuestions([...questions, noOfQuestions + 1]);
         setQuizQuestions(prev => [...prev, { question: '', optionType: '', options: ["",""], answer: '', timer: 0 }])
-        setSelectedQuestion(noOfQuestions)
+        setSelectedQuestion(noOfQuestions+1)
         setNoOfOptions([1,2]);
         setSelectedRadioBtn(null);
         setTimer('0');
         setOptionType(pre=>pre);
+        console.log(questions)
     }
 
-    const handleOptionType = (e) => {  
-        alert(e.target.value)      
+    const handleOptionType = (e) => {              
         setOptionType(e.target.value);
     }
 
     const handleRemoveQuestions = (item, e) => {
         e.preventDefault();
         e.stopPropagation();
+        console.log(questions)
         const remaningQuestions = questions.filter(value => value !== item);
+        console.log(remaningQuestions)
         setQuestions(remaningQuestions);
-        if (item - 1 <= selectedQuestion) {
+        if (item <= selectedQuestion) {
             setSelectedQuestion(prev => prev - 1);
         }
          let updatedQuestion = quizQuestions;        
-         updatedQuestion.splice(item - 1, 1);        
+         updatedQuestion.splice(item, 1);        
          setQuizQuestions(updatedQuestion);
          console.log(updatedQuestion)
     }
@@ -176,7 +177,7 @@ export default function CreateQuizComponent({
             <div className={Style.Heading}>
                 <div className={Style.Questions}>
                     {questions && questions?.map((item, indx) => (
-                        item <= 1 ?
+                        item === 0 ?
                             <button key={indx}
                                 className={Style.Slide}
                              onClick={
@@ -188,7 +189,7 @@ export default function CreateQuizComponent({
                             <button key={indx} className={Style.Slide} onClick={(e) => { setSelectedQuestion(indx); }}>{indx+1}
                                 <img
                                     src={cross}
-                                    onClick={(e) => handleRemoveQuestions(item, e)}
+                                    onClick={(e) => handleRemoveQuestions(indx, e)}
                                     className={Style.Close}
                                     alt=""
                                 />
@@ -408,13 +409,13 @@ export default function CreateQuizComponent({
                 <div className={Style.Timer}>
                     <div>Timer</div>
                     <div><button 
-                    className={`${Style.TimerButton} ${timer==="0"&&Style.TimerBtnColor}`} 
+                    className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer==="0"&&Style.TimerBtnColor}`} 
                     onClick={e=>{handleTimer('0'); handleQuizQuestionChange(0,e)}} name="timer" value="0">Off</button></div>
                     <div><button 
-                    className={`${Style.TimerButton} ${timer==="5"&&Style.TimerBtnColor}`} 
+                    className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer==="5"&&Style.TimerBtnColor}`} 
                     onClick={e=>{handleTimer('5'); handleQuizQuestionChange(0,e)}} name="timer" value="5">5 Sec</button></div>
                     <div><button 
-                    className={`${Style.TimerButton} ${timer==="10"&&Style.TimerBtnColor}`} 
+                    className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer==="10"&&Style.TimerBtnColor}`} 
                     onClick={e=>{handleTimer('10'); handleQuizQuestionChange(0,e)}} name="timer" value="10">10 Sec</button></div>
                 </div>
             </div> : <div className={Style.Options} style={{ marginLeft: "10px" }}>                
