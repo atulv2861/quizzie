@@ -47,7 +47,8 @@ export default function DashboardPanelComponent() {
    setIsConfirmQuizPopupOpen={setIsConfirmQuizPopupOpen}
    quizzieType={quizzieType}
    quizName={quizName}
-   setQuizId={setQuizId}/>}
+   setQuizId={setQuizId}
+   setQuizName={setQuizName}/>}
    {isConfirmQuizPopupOpen&&<ConfirmQuizComponent
    setIsConfirmQuizPopupOpen={setIsConfirmQuizPopupOpen}
    quizId={quizId}/>}

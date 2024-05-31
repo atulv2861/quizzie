@@ -10,7 +10,8 @@ export default function CreateQuizComponent({
     setIsConfirmQuizPopupOpen, 
     quizzieType,
     quizName,
-    setQuizId }) {
+    setQuizId,
+    setQuizName }) {
     const [createQuizPopupPosition, setCreateQuizPopupPosition] = useState();
     const [questions, setQuestions] = useState([1]);
     const [noOfOptions, setNoOfOptions] = useState([1, 2]);
@@ -48,6 +49,7 @@ export default function CreateQuizComponent({
                 setQuizId(createdQuiz?.quiz?._id);
                 setIsCreateQuizPopupOpen(false);
                 setIsConfirmQuizPopupOpen(true);
+                setQuizName(null);
                 await handleGetQuizByUserId(user?._id);                
             }           
         }
@@ -63,17 +65,29 @@ export default function CreateQuizComponent({
 
     useEffect(()=>{        
         const question=quizQuestions[selectedQuestion];
-        const option = question?.options;        
+        const option = question?.options;  
+        const optionType=question?.optionType;
+        console.log(option)     
         const answer=question?.answer;
         const optionSize=option?.length;
-        const indxOfAns=option?.indexOf(answer);    
+        const indxOfAns=option?.indexOf(answer);  
+        
         const arr = Array.from({ length: optionSize?optionSize:2 }, (v, i) => i);
+        console.log(arr)
         setNoOfOptions(arr);
+        if(optionType==="Text_ImageUrl"){
+            alert("9999999")
+            const indxOfAns = option.findIndex(item => item.text === answer.text && item.img === answer.img); 
+            alert(indxOfAns)
+            setSelectedRadioBtn(indxOfAns);
+            return; 
+        }        
         if(option[0]?.length>0 ||option[1]?.length>0)
             setSelectedRadioBtn(indxOfAns);
     },[selectedQuestion]);
 
-    const addQuestions = () => {
+    const addQuestions = (e) => {
+        console.log(e)
         const noOfQuestions = questions.length;
         setQuestions([...questions, noOfQuestions + 1]);
         setQuizQuestions(prev => [...prev, { question: '', optionType: '', options: ["",""], answer: '', timer: 0 }])
@@ -81,9 +95,11 @@ export default function CreateQuizComponent({
         setNoOfOptions([1,2]);
         setSelectedRadioBtn(null);
         setTimer('0');
+        setOptionType(pre=>pre);
     }
 
-    const handleOptionType = (e) => {        
+    const handleOptionType = (e) => {  
+        alert(e.target.value)      
         setOptionType(e.target.value);
     }
 
@@ -119,13 +135,27 @@ export default function CreateQuizComponent({
 
     useEffect(()=>{
         const values = [...quizQuestions];
-        values[selectedQuestion]['optionType'] = 'Text';
+        values[selectedQuestion]['optionType'] = optionType;
         setQuizQuestions(values);
     },[questions]);
     
     const handleQuizQuestionChange = (indx,e) => {
         const values = [...quizQuestions];
-        console.log(e.target.name)
+        console.log(e.target)
+        if(e.target.name==="ImageUrl"){
+            if(values[selectedQuestion].options[indx]){
+                values[selectedQuestion].options[indx].img = e.target.value;
+            }else{
+                values[selectedQuestion].options[indx] = {"img":e.target.value};
+            }            
+        }
+        if(e.target.name==="Text"){
+            if(values[selectedQuestion].options[indx]){
+                values[selectedQuestion].options[indx].text = e.target.value;
+            }else{
+                values[selectedQuestion].options[indx] = {"text":e.target.value};
+            }            
+        }
         if (e.target.name === "options") {
           values[selectedQuestion].options[indx] = e.target.value;
         } else if (e.target.name === "answer") {
@@ -134,6 +164,7 @@ export default function CreateQuizComponent({
           values[selectedQuestion][e.target.name] = e.target.value;
         }
         console.log(values)
+        console.log("===================================")
         setQuizQuestions(values);
         console.log(quizQuestions)
       };
@@ -164,7 +195,7 @@ export default function CreateQuizComponent({
                             </button>
                     ))}
                     {questions && questions.length < 5 &&
-                        <button className={Style.AddQuestion} onClick={() => addQuestions()}>+</button>
+                        <button className={Style.AddQuestion} onClick={(e) => addQuestions(e)}>+</button>
                     }
                 </div>
                 <div style={{ marginRight: "50px" }}><h2>Max 5 Questions</h2></div>
@@ -322,16 +353,16 @@ export default function CreateQuizComponent({
                                 className={`${Style.RadioInputBox} ${selectedRadioBtn===indx&&Style.SelectedRadioBtn}`} 
                                 type="text" 
                                 placeholder="Text"  
-                                name="options"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]} 
+                                name="Text"  
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.text?quizQuestions[selectedQuestion]?.options[indx]?.text:""} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                                
                                 />&nbsp;&nbsp;
                                 <input 
                                 className={`${Style.RadioInputBox} ${selectedRadioBtn===indx&&Style.SelectedRadioBtn}`} 
                                 type="text" 
                                 placeholder="Image Url"   
-                                name="options"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]} 
+                                name="ImageUrl"  
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.img?quizQuestions[selectedQuestion]?.options[indx]?.img:""} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                               
                                 />
                             </div> :
@@ -348,16 +379,16 @@ export default function CreateQuizComponent({
                                 className={`${Style.RadioInputBox} ${selectedRadioBtn===indx&&Style.SelectedRadioBtn}`} 
                                 type="text" 
                                 placeholder="Text"  
-                                name="options"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]} 
+                                name="Text"  
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.text?quizQuestions[selectedQuestion]?.options[indx]?.text:""} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                                
                                 />&nbsp;&nbsp;
                                 <input 
                                 className={`${Style.RadioInputBox} ${selectedRadioBtn===indx&&Style.SelectedRadioBtn}`} 
                                 type="text" 
                                 placeholder="Image Url" 
-                                name="options"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]} 
+                                name="ImageUrl"  
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.img?quizQuestions[selectedQuestion]?.options[indx]?.img:""} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                                 
                                 />
                                 <img 
@@ -507,16 +538,16 @@ export default function CreateQuizComponent({
                                 className={`${Style.RadioInputBox} ${selectedRadioBtn===indx&&Style.SelectedRadioBtn}`} 
                                 type="text" 
                                 placeholder="Text"   
-                                name="options"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]} 
+                                name="Text"  
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.text} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                               
                                 />&nbsp;&nbsp;
                                  <input 
                                 className={`${Style.RadioInputBox} ${selectedRadioBtn===indx&&Style.SelectedRadioBtn}`} 
                                 type="text" 
                                 placeholder="Image Url"  
-                                name="options"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]} 
+                                name="ImageUrl"  
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.img} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                                
                                 />
                             </div> :
@@ -533,16 +564,16 @@ export default function CreateQuizComponent({
                                 className={`${Style.RadioInputBox} ${selectedRadioBtn===indx&&Style.SelectedRadioBtn}`} 
                                 type="text" 
                                 placeholder="Text"   
-                                name="options"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]} 
+                                name="Text"  
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.text} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                               
                                 />&nbsp;&nbsp;
                                 <input 
                                 className={`${Style.RadioInputBox} ${selectedRadioBtn===indx&&Style.SelectedRadioBtn}`} 
                                 type="text" 
                                 placeholder="Image Url"  
-                                name="options"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]} 
+                                name="ImageUrl"  
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.img} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                                
                                 />
                                 <img 
