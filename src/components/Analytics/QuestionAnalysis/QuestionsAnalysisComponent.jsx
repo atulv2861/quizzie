@@ -44,10 +44,10 @@ export default function QuestionsAnalysisComponent() {
                 </div>
             </div>
             <div>
-                {quiz && quiz[0]?.quizType === 'Q&A' && quiz[0].quizQuestions.map((item,indx) => (
+                {quiz && quiz[0]?.quizType === 'Q&A' && quiz[0].quizQuestions?.map((item,indx) => (
                     <>                    
-                        <QuestionComponent item={assessment?.filter(value=>value?.questionId==item?._id)} />
-                        {quiz[0].quizQuestions?.length!==(indx+1)&&<hr style={{ width: "82%", marginRight: "300px", marginBottom: "40px", size: "16", color: "black" }} />}
+                        <QuestionComponent item={item} qno={indx+1}/>
+                        {quiz[0].quizQuestions?.length!==(indx+1)&&<hr style={{ width: "100%", marginBottom: "40px", size: "16", color: "black" }} />}
                         
                     </>
                 ))}
@@ -55,8 +55,8 @@ export default function QuestionsAnalysisComponent() {
 
             <div>
                 {quiz && quiz[0]?.quizType === 'Poll_Type' && quiz[0].quizQuestions.map((item,indx) => (<>
-                    <PollQuestionComponent item={assessment?.filter(value=>value?.questionId==item?._id)} />
-                    {quiz[0]?.quizQuestions?.length!==(indx+1)&&<hr style={{width:"86%", marginRight:"400px", marginBottom:"40px", size:"16", color:"black"}}/>}
+                    <PollQuestionComponent item={item} qno={indx+1} />
+                    {quiz[0]?.quizQuestions?.length!==(indx+1)&&<hr style={{width:"100%",  marginBottom:"40px", size:"16", color:"black"}}/>}
                     </>
                 ))}
             </div>
