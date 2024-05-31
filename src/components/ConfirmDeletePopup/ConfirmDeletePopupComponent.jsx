@@ -18,19 +18,20 @@ export default function ConfirmDeletePopupComponent({ setIsConfirmDeletePopupOpe
     useEffect(()=>{
         const initial=async()=>{
             if(deletedQuiz?.success){
-                setIsConfirmDeletePopupOpen(false);
+                
                 const user = JSON.parse(getStorage("user"));
                 if (user) {
                     await handleGetQuizByUserId(user?._id);
-                }
-                toast.success('Quiz deleted successfully!');
+                }                
             }
         }
         initial();
     },[deletedQuiz]);
 
     const handleDelete = async () => {
-        await handleDeleteQuiz(quizId);        
+        await handleDeleteQuiz(quizId);  
+        setIsConfirmDeletePopupOpen(false); 
+        toast.success('Quiz deleted successfully!');     
     }
 
     useEffect(() => {

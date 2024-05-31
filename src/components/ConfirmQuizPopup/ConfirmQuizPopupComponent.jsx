@@ -6,7 +6,7 @@ export default function ConfirmQuizPopupComponent({ setIsConfirmQuizPopupOpen,qu
     const [confirmQuizPopupPosition, setConfirmQuizPopupPosition] = useState();
 
     const handleClose = () => {
-        setIsConfirmQuizPopupOpen(false);
+        setIsConfirmQuizPopupOpen(()=>false);
     }
 
     const handleShareQuiz = () => {
