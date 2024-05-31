@@ -10,7 +10,7 @@ export default function ConfirmQuizPopupComponent({ setIsConfirmQuizPopupOpen,qu
     }
 
     const handleShareQuiz = () => {
-        navigator.clipboard.writeText(`https://quizzie-5wrf.onrender.com/live-quiz/${quizId}`);
+        navigator.clipboard.writeText(`${process.env.REACT_APP_FRONTEND_URL}/live-quiz/${quizId}`);
         toast.success('Link copied to clipboard');
     }
 
