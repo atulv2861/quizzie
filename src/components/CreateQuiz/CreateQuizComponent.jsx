@@ -539,7 +539,7 @@ export default function CreateQuizComponent({
                                 type="text" 
                                 placeholder="Text"   
                                 name="Text"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]?.text} 
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.text?quizQuestions[selectedQuestion]?.options[indx]?.text:""} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                               
                                 />&nbsp;&nbsp;
                                  <input 
@@ -547,7 +547,7 @@ export default function CreateQuizComponent({
                                 type="text" 
                                 placeholder="Image Url"  
                                 name="ImageUrl"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]?.img} 
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.img?quizQuestions[selectedQuestion]?.options[indx]?.img:""} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                                
                                 />
                             </div> :
@@ -565,7 +565,7 @@ export default function CreateQuizComponent({
                                 type="text" 
                                 placeholder="Text"   
                                 name="Text"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]?.text} 
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.text?quizQuestions[selectedQuestion]?.options[indx]?.text:""} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                               
                                 />&nbsp;&nbsp;
                                 <input 
@@ -573,7 +573,7 @@ export default function CreateQuizComponent({
                                 type="text" 
                                 placeholder="Image Url"  
                                 name="ImageUrl"  
-                                value={quizQuestions[selectedQuestion]?.options[indx]?.img} 
+                                value={quizQuestions[selectedQuestion]?.options[indx]?.img?quizQuestions[selectedQuestion]?.options[indx]?.img:""} 
                                 onChange={e=>handleQuizQuestionChange(indx,e)}                                
                                 />
                                 <img 

@@ -6,6 +6,7 @@ import useQuiz from "../Hook/useQuiz";
 import { useSelector } from "react-redux";
 import CongratesComponent from "./CongratesComponent";
 import { quizAssessment } from "../../Service/quiz/assessment";
+import ans from "../../assets/ans.jpg";
 export default function LiveQuizComponent() {
     const [questions, setQuestions] = useState(null);
     const [currQuestion, setCurrQuestion] = useState(0);
@@ -40,7 +41,7 @@ export default function LiveQuizComponent() {
 
     const handleSubmit = async () => {
         console.log(questionAndOption);
-        //navigate('/congrates');
+        console.log("============================================44")
         let obj1 = questionAndOption;
         let obj2 = quizById?.quiz?.quizQuestions;
         let result = null;
@@ -50,9 +51,11 @@ export default function LiveQuizComponent() {
                 .filter(item2 => obj1.some(item1 => item1.qId === item2._id))
                 .map(item2 => {
                     const item1 = obj1.find(item1 => item1.qId === item2._id);
+                    console.log(item1)
+                    console.log(item2)
                     return {
                         _id: item2._id,
-                        isCorrect: item1.option === item2.answer
+                        isCorrect: item2.optionType === "Text_ImageUrl" ? item1?.option?.text === item2?.answer?.text && item1?.option?.img === item2?.answer?.img : item1.option === item2.answer
                     };
                 });
             console.log("==============================58")
@@ -73,7 +76,13 @@ export default function LiveQuizComponent() {
             result = obj1.map(obj1Item => {
                 const matchedObj2Item = obj2.find(obj2Item => obj2Item._id === obj1Item.qId);
                 //if (matchedObj2Item) {
-                const optionIndex = matchedObj2Item.options.indexOf(obj1Item.option);
+                let optionIndex;
+                if (matchedObj2Item?.optionType === "Text_ImageUrl") {
+                    optionIndex = matchedObj2Item?.options?.findIndex(item => item.text === obj1Item.option.text && item.img === obj1Item.option.img);
+                } else {
+                    optionIndex = matchedObj2Item.options.indexOf(obj1Item.option);
+                }
+
                 return {
                     _id: obj1Item.qId,
                     // option: obj1Item.option,
@@ -90,11 +99,11 @@ export default function LiveQuizComponent() {
                 assessment: result
             };
         }
-        let res = null;        
+        let res = null;
         res = await quizAssessment(data);
         console.log(res);
         console.log("============================96")
-        if(res?.data?.success)
+        if (res?.data?.success)
             setIsCongratesPopupOpen(true);
     }
 
@@ -127,7 +136,7 @@ export default function LiveQuizComponent() {
                 setCurrQuestion((currQuestion) => currQuestion + 1);
                 setTimer(quizById?.quiz?.quizQuestions[currQuestion]?.timer);
 
-                if (quizById?.quiz?.quizQuestions?.length === currQuestion+1) {
+                if (quizById?.quiz?.quizQuestions?.length === currQuestion + 1) {
                     handleSubmit();
                 }
             }
@@ -143,12 +152,12 @@ export default function LiveQuizComponent() {
         return sec < 10 ? `00:0${sec}` : `00:${sec}`;
     };
 
-    const handleOptionSelection = (qId, indx) => {        
+    const handleOptionSelection = (qId, indx) => {
         let data = { qId: qId, option: questions?.options[indx] };
         setQuestionAndOption([...questionAndOption, data]);
         setSelectedOption(indx);
     }
-    
+
     return (<>
         {isCongratesPopupOpen && <CongratesComponent score={score} />}
         {!isCongratesPopupOpen && <div className={Style.Wrapper}
@@ -174,19 +183,21 @@ export default function LiveQuizComponent() {
                     </>}
                     {questions?.optionType === "ImageUrl" && <>
                         {questions?.options?.map((item, indx) => (
-                            <div className={Style.Card}>
+                            <div className={`${Style.Card} ${selectedOption === indx && Style.SelectedOption}`}
+                                onClick={e => handleOptionSelection(questions?._id, indx)}>
                                 <div className={Style.Details}>
-                                    <img src={item} alt="option" />
+                                    <img src={item ? item : ans} style={{ width: "150px", height: "40px" }} alt="option" />
                                 </div>
                             </div>
                         ))}
                     </>}
-                    {questions?.optionType === "Text-ImageUrl" && <>
+                    {questions?.optionType === "Text_ImageUrl" && <>
                         {questions?.options?.map((item, indx) => (
-                            <div className={Style.Card}>
+                            <div className={`${Style.Card} ${selectedOption === indx && Style.SelectedOption}`}
+                                onClick={e => handleOptionSelection(questions?._id, indx)}>
                                 <div className={Style.Details}>
-                                    <p>{item?.option}</p>
-                                    <img src={item?.image} alt="option" />
+                                    <p>{item && item.text}</p>
+                                    <img src={item ? item.img : ans} style={{ width: "75px", height: "40px" }} alt="option" />
                                 </div>
                             </div>
                         ))}

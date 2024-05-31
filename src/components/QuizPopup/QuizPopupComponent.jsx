@@ -18,7 +18,7 @@ export default function QuizPopupComponent(
 
     const handleContinue=()=>{
         setIsQuizPopupOpen(false);
-        setIsCreateQuizPopupOpen(true)
+        setIsCreateQuizPopupOpen(true)        
     }
 
     const handleQuizType=(value)=>{
