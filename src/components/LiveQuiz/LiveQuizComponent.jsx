@@ -105,7 +105,7 @@ export default function LiveQuizComponent() {
         if (window.innerWidth <= 460) {
             let left = (window.innerWidth - 400) / 2;
             let top = (window.innerHeight - 550) / 2;
-            setLiveQuizPopupPosition({ left: left, top: top });
+            setLiveQuizPopupPosition({ left: 0, top: 0 });
         } else {
             let left = (window.innerWidth - 600) / 2;
             let top = (window.innerHeight - 550) / 2;
@@ -153,7 +153,8 @@ export default function LiveQuizComponent() {
     return (<>
         {isCongratesPopupOpen && <CongratesComponent score={score} />}
         {!isCongratesPopupOpen && <div className={Style.Wrapper}
-            style={{ left: `${liveQuizPopupPosition?.left}px`, top: `${liveQuizPopupPosition?.top}px` }}>
+            style={{ left: `${liveQuizPopupPosition?.left}px`, top: `${liveQuizPopupPosition?.top}px` }}
+            >
             <>
                 <div className={Style.Heading}>
                     <div><h3>0{currQuestion + 1}/0{quizById?.quiz?.quizQuestions?.length}</h3></div>
