@@ -211,3 +211,11 @@
 .TimerBtnColor{
     background: red;
 }
+
+.ErrorMsg{
+    outline: 3px solid red;    
+  }
+
+  .ErrorMsg::placeholder{
+    color: red;
+}

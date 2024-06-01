@@ -24,6 +24,7 @@ export default function CreateQuizComponent({
     const [timer, setTimer] = useState('0');
     const { handleCreateQuiz, handleGetQuizByUserId } = useQuiz();
     const { createdQuiz } = useSelector((state) => state.quiz);
+    const [fieldErrors,setFieldErrors]=useState();
     const handleRadioChange = (indx) => {
         setSelectedRadioBtn(indx);
     };
@@ -34,6 +35,14 @@ export default function CreateQuizComponent({
     }
 
     const handleCreateQuizzes = async () => {
+        const fieldErrors = {};
+        if (!quizQuestions[selectedQuestion]?.question?.trim()) {
+            fieldErrors.question = true;
+        }
+        if (Object.keys(fieldErrors).length > 0) {
+            setFieldErrors(fieldErrors);
+            return;
+        }
         const data = {
             quizName: quizName,
             quizType: quizzieType,
@@ -66,14 +75,11 @@ export default function CreateQuizComponent({
     useEffect(() => {
         const question = quizQuestions[selectedQuestion];
         const option = question?.options;
-        const optionType = question?.optionType;
-        console.log(option)
+        const optionType = question?.optionType;       
         const answer = question?.answer;
         const optionSize = option?.length;
         const indxOfAns = option?.indexOf(answer);
-
-        const arr = Array.from({ length: optionSize ? optionSize : 2 }, (v, i) => i);
-        console.log(arr)
+        const arr = Array.from({ length: optionSize ? optionSize : 2 }, (v, i) => i);        
         setNoOfOptions(arr);
         if (optionType === "Text_ImageUrl") {
             const indxOfAns = option.findIndex(item => item.text === answer.text && item.img === answer.img);
@@ -86,7 +92,14 @@ export default function CreateQuizComponent({
     }, [selectedQuestion]);
 
     const addQuestions = (e) => {
-        console.log(questions)
+        const fieldErrors = {};
+        if (!quizQuestions[selectedQuestion]?.question?.trim()) {
+            fieldErrors.question = true;
+        }
+        if (Object.keys(fieldErrors).length > 0) {
+            setFieldErrors(fieldErrors);
+            return;
+        }        
         const noOfQuestions = questions[questions.length - 1];
         setQuestions([...questions, noOfQuestions + 1]);
         setQuizQuestions(prev => [...prev, { question: '', optionType: '', options: ["", ""], answer: '', timer: 0 }])
@@ -94,8 +107,7 @@ export default function CreateQuizComponent({
         setNoOfOptions([1, 2]);
         setSelectedRadioBtn(null);
         setTimer('0');
-        setOptionType(pre => pre);
-        console.log(questions)
+        setOptionType(pre => pre);        
     }
 
     const handleOptionType = (e) => {
@@ -104,18 +116,15 @@ export default function CreateQuizComponent({
 
     const handleRemoveQuestions = (item, e) => {
         e.preventDefault();
-        e.stopPropagation();
-        console.log(questions)
-        const remaningQuestions = questions.filter(value => value !== item);
-        console.log(remaningQuestions)
+        e.stopPropagation();        
+        const remaningQuestions = questions.filter(value => value !== item);        
         setQuestions(remaningQuestions);
         if (item <= selectedQuestion) {
             setSelectedQuestion(prev => prev - 1);
         }
         let updatedQuestion = quizQuestions;
         updatedQuestion.splice(item, 1);
-        setQuizQuestions(updatedQuestion);
-        console.log(updatedQuestion)
+        setQuizQuestions(updatedQuestion);        
     }
 
     const handleAddOptions = () => {
@@ -141,8 +150,7 @@ export default function CreateQuizComponent({
     }, [questions]);
 
     const handleQuizQuestionChange = (indx, e) => {
-        const values = [...quizQuestions];
-        console.log(e.target)
+        const values = [...quizQuestions];     
         if (e.target.name === "ImageUrl") {
             if (values[selectedQuestion].options[indx]) {
                 values[selectedQuestion].options[indx].img = e.target.value;
@@ -163,13 +171,9 @@ export default function CreateQuizComponent({
             values[selectedQuestion][e.target.name] = values[selectedQuestion].options[indx];
         } else {
             values[selectedQuestion][e.target.name] = e.target.value;
-        }
-        console.log(values)
-        console.log("===================================")
-        setQuizQuestions(values);
-        console.log(quizQuestions)
+        }        
+        setQuizQuestions(values);        
     };
-
 
     return (
         <div className={Style.Wrapper}
@@ -204,8 +208,8 @@ export default function CreateQuizComponent({
             <div className={Style.InputContainer}>
                 <input
                     type="text"
-                    placeholder="Poll Question"
-                    className={Style.InputBox}
+                    placeholder="Quiz Question"
+                    className={`${Style.InputBox} ${fieldErrors?.question && Style.ErrorMsg}`}
                     name="question"
                     value={quizQuestions[selectedQuestion]?.question}
                     onChange={e => handleQuizQuestionChange(0, e)}
@@ -409,13 +413,13 @@ export default function CreateQuizComponent({
                 <div className={Style.Timer}>
                     <div>Timer</div>
                     <div><button
-                        className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer === "0" && Style.TimerBtnColor}`}
+                        className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer == "0" && Style.TimerBtnColor}`}
                         onClick={e => { handleTimer('0'); handleQuizQuestionChange(0, e) }} name="timer" value="0">Off</button></div>
                     <div><button
-                        className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer === "5" && Style.TimerBtnColor}`}
+                        className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer == "5" && Style.TimerBtnColor}`}
                         onClick={e => { handleTimer('5'); handleQuizQuestionChange(0, e) }} name="timer" value="5">5 Sec</button></div>
                     <div><button
-                        className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer === "10" && Style.TimerBtnColor}`}
+                        className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer == "10" && Style.TimerBtnColor}`}
                         onClick={e => { handleTimer('10'); handleQuizQuestionChange(0, e) }} name="timer" value="10">10 Sec</button></div>
                 </div>
             </div> : <div className={Style.Options} style={{ marginLeft: "10px" }}>

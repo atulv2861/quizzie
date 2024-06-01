@@ -11,6 +11,7 @@
 .Heading{
   display: flex;
   justify-content: center;
+  margin-bottom: -20px;
 }
 
 .Btn{
@@ -25,9 +26,9 @@
 }
 
 .Button{
-    width: 200px;
-    height: 35px;
-    font-weight: 600;
+    width: 180px;
+    height: 30px;
+    font-weight: 550;
     font-size: 18px;
     border: none;
     outline: none;

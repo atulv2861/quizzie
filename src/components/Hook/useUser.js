@@ -20,7 +20,8 @@ import {userRegistrationLoading,
             try {
                 dispatch(userRegistrationLoading());                
                 const res = await registerUser(data);                           
-                dispatch(userRegistrationSuccess(res.data));                                            
+                dispatch(userRegistrationSuccess(res.data)); 
+                return res;                                           
             } catch (error) {              
                 dispatch(userRegistrationError(error));                
             }
@@ -30,7 +31,8 @@ import {userRegistrationLoading,
             try {
               dispatch(userLoginLoading());
               const res = await loginUser(data);              
-              dispatch(userLoginSuccess(res.data));                                  
+              dispatch(userLoginSuccess(res.data)); 
+              return res;                                 
             } catch (error) {            
               dispatch(userLoginError(error));
             }

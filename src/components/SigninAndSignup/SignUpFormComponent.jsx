@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Style from "./SignUpFormComponent.module.css";
 import useUser from "../Hook/useUser";
 import { useSelector } from "react-redux";
-export default function SignUpFormComponent({setIsRegistered}){
+import { toast } from "react-toastify";
+export default function SignUpFormComponent({setIsRegistered,isRegistered}){
     const [name,setName]=useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -38,17 +39,20 @@ export default function SignUpFormComponent({setIsRegistered}){
             email,
             password
         }
-        await handleRegisterUser(data);
-    }
-
-    useEffect(() => {
-        const initial = () => {
-            if (userData?.user?.isLoggedIn) {                
-                setIsRegistered(true);                
-            }
+        const result=await handleRegisterUser(data);       
+        if(result?.status===201){
+            toast.success(result?.data?.message)
+            setIsRegistered(true);
+            return;
         }
-        initial();
-    }, [userData]);
+        if(result?.status===409){
+            toast.error(result?.data?.message)  
+            return;          
+        }
+        toast.error("Something went wrong!")
+         
+    }
+    
     return(
         <div className={Style.FormWrapper}>
         <div className={Style.FieldWrapper}>

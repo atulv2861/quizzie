@@ -36,7 +36,7 @@ export default function SignInComponent(){
                 <div><button className={`${Style.Button} ${isRegistered&& Style.BoxShadow}` } onClick={e=>{setIsRegistered(true)}}>Sign In</button></div>            
             </div>
             <div className={Style.Form}>
-            {isRegistered?<SignInFormComponent setIsLoggedIn={setIsLoggedIn}/>:<SignUpFormComponent setIsRegistered={setIsRegistered}/>}
+            {isRegistered?<SignInFormComponent setIsLoggedIn={setIsLoggedIn}/>:<SignUpFormComponent isRegistered={isRegistered} setIsRegistered={setIsRegistered}/>}
             </div>       
         </div>
     )

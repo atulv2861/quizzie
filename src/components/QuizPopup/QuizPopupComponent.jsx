@@ -11,12 +11,20 @@ export default function QuizPopupComponent(
         setQuizName
     }
 ){
-    
+    const [fieldErrors,setFieldErrors]=useState();
     const handleCancel=()=>{
         setIsQuizPopupOpen(false);
     }
 
     const handleContinue=()=>{
+        const fieldErrors = {};
+        if (!quizName?.trim()) {
+            fieldErrors.quizName = true;
+        }
+        if (Object.keys(fieldErrors).length > 0) {
+            setFieldErrors(fieldErrors);
+            return;
+        }
         setIsQuizPopupOpen(false);
         setIsCreateQuizPopupOpen(()=>true)        
     }
@@ -38,7 +46,7 @@ export default function QuizPopupComponent(
                 placeholder="Quiz Name"
                 value={quizName}
                 onChange={handleQuizName}
-                className={Style.InputBox}/>
+                className={`${Style.InputBox} ${fieldErrors?.quizName && Style.ErrorMsg}`}/>
             </div>
             <div className={Style.BtnContainer}>
                 <div className={Style.QuizHeading}>Quiz Type</div>
@@ -49,7 +57,8 @@ export default function QuizPopupComponent(
             </div>
             <div className={Style.BtnContainer}>
             <button className={Style.Button} onClick={handleCancel}>Cancel</button>
-            <button disabled={quizName?false:true} className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button>
+            <button className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button>
+            {/* <button disabled={quizName?false:true} className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button> */}
             </div>
         </div>
     )

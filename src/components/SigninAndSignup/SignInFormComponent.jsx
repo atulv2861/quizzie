@@ -3,6 +3,7 @@ import Style from "./SignInFormComponent.module.css";
 import { useSelector } from "react-redux";
 import useUser from "../Hook/useUser";
 import { setStorage } from "../../Service/StorageService";
+import { toast } from "react-toastify";
 export default function SignInFormComponent({setIsLoggedIn}){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,21 +24,29 @@ export default function SignInFormComponent({setIsLoggedIn}){
             return;
         }
         const data={email,password};
-        await handleLoginUser(data);       
-        
+        const result=await handleLoginUser(data); 
+        if(result?.status===200){
+            setIsLoggedIn(true);
+            return;
+        }       
+        if(result.status===404){
+            toast.error(result?.data?.message)  
+            return; 
+        } 
+        toast.error("Something went wrong!");        
     }
 
     useEffect(() => {
         const initial = () => {
             if (userData?.user?.isLoggedIn) {                
                 setStorage("accessToken", JSON.stringify(userData.accessToken));
-                setStorage("user", JSON.stringify(userData.user));
-                setIsLoggedIn(true);
+                setStorage("user", JSON.stringify(userData.user));                
             }
         }
         if (userData)
             initial();
     }, [userData]);
+    
     return(
         <div className={Style.FormWrapper}>        
         <div className={Style.FieldWrapper}>
