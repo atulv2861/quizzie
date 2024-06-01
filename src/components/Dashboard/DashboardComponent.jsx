@@ -16,7 +16,7 @@ export default function DashboardComponent() {
     }, []);
 
     const impression= ()=> {
-        const num=quizDetails?.quizDetails[0]?quizDetails?.quizDetails[0]?.totalImpressions:0;
+        const num=quizDetails?.quizDetails?.length>0&&quizDetails?.quizDetails[0]?quizDetails?.quizDetails[0]?.totalImpressions:0;
         if (num < 1000) {
           return num.toString();
         } else {
@@ -52,7 +52,7 @@ export default function DashboardComponent() {
             <div className={Style.Quiz}>
                 <h2>Trending Quizs</h2>
                 <div className={Style.QuizContainer}>
-                    {trendingQuiz?.quizzes?.map((item,indx) => <QuizComponent item={item} key={indx}/>)}
+                    {trendingQuiz?.quizzes?.length>0&&trendingQuiz?.quizzes?.map((item,indx) => <QuizComponent item={item} key={indx}/>)}
                 </div>
             </div>
         </div>
