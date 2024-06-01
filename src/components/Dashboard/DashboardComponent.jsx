@@ -29,14 +29,14 @@ export default function DashboardComponent() {
             <div className={Style.Wrapper1}>
                 <div className={Style.Card} style={{ color: "#FF5D01" }}>
                     <div className={Style.Details}>
-                        <h1>{quizDetails?.quizDetails&&quizDetails?.quizDetails[0]?quizDetails?.quizDetails[0]?.totalQuizzes:0}</h1>
+                        <h1>{quizDetails?.quizDetails?.length>0&&quizDetails?.quizDetails[0]?quizDetails?.quizDetails[0]?.totalQuizzes:0}</h1>
                         <h3>Quiz</h3>
                     </div>
                     <div><h3>Created</h3></div>
                 </div>
                 <div className={Style.Card} style={{ color: "#60B84B" }}>
                     <div className={Style.Details}>
-                        <h1>{quizDetails?.quizDetails&&quizDetails?.quizDetails[0]?quizDetails?.quizDetails[0]?.totalQuestions:0}</h1>
+                        <h1>{quizDetails?.quizDetails?.length>0&&quizDetails?.quizDetails[0]?quizDetails?.quizDetails[0]?.totalQuestions:0}</h1>
                         <h3>Questions</h3>
                     </div>
                     <div><h3>Created</h3></div>

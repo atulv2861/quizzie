@@ -15,19 +15,19 @@ export default function QuestionComponent({item,qno}){
         <div className={Style.Wrapper1}>
                 <div className={Style.Card}>
                     <div className={Style.Details}>
-                        <h2>{assessment[0]?.attemptedPeople?assessment[0]?.attemptedPeople:0}</h2>
+                        <h2>{assessment?.length>0&&assessment[0]?.attemptedPeople?assessment[0]?.attemptedPeople:0}</h2>
                         <p className={Style.Text}>People Attempted the question</p>
                     </div>                    
                 </div>
                 <div className={Style.Card}>
                     <div className={Style.Details}>
-                        <h1>{assessment[0]?.correctAnswered?assessment[0]?.correctAnswered:0}</h1>
+                        <h1>{assessment?.length>0&&assessment[0]?.correctAnswered?assessment[0]?.correctAnswered:0}</h1>
                         <p className={Style.Text}>People Answered Correctly</p>
                     </div>                    
                 </div>
                 <div className={Style.Card}>
                     <div className={Style.Details}>
-                        <h1>{assessment[0]?.incorrectAnswered?assessment[0]?.incorrectAnswered:0}</h1>
+                        <h1>{assessment?.length>0&&assessment[0]?.incorrectAnswered?assessment[0]?.incorrectAnswered:0}</h1>
                         <p className={Style.Text}>People Answered Incorrectly</p>
                     </div>                    
                 </div>                

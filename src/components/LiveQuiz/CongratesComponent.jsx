@@ -3,11 +3,9 @@ import congrates from "../../assets/congrates.svg";
 import Style from "./CongratesComponent.module.css";
 import { useSelector } from "react-redux";
 export default function CongratesComponent(score) {
-    const [congratesPopupPosition, setCongratesPopupPosition] = useState();
-    const [quizType, setQuizType] = useState("Q&A");
+    const [congratesPopupPosition, setCongratesPopupPosition] = useState(); 
     const { quizById } = useSelector(state => state.quiz);
-    console.log(score);
-    console.log(quizById?.quiz?.quizType)
+
     useEffect(() => {
         if (window.innerWidth <= 460) {
             let left = (window.innerWidth - 300) / 2;

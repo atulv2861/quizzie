@@ -17,9 +17,9 @@ export default function QuestionsAnalysisComponent() {
         const initial=async()=>{
         const quizDetails = quizByUserId?.quizzes?.filter(item => item?._id === quizId);
         setQuiz(quizDetails);        
-        const data={quizType:quizDetails[0]?.quizType,quizId:quizId};     
+        const data={quizType:quizDetails?.length>0&&quizDetails[0]?.quizType,quizId:quizId};     
         await handleGetAssessmentDetails(data);
-        const date = new Date(quizDetails[0]?.createdOn);
+        const date = new Date(quizDetails?.length>0&&quizDetails[0]?.createdOn);
         const options = { day: '2-digit', month: 'short', year: 'numeric' };
         const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(date);
         setCreatedDate(formattedDate);      
