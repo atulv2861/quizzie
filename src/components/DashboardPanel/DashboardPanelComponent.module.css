@@ -2,3 +2,8 @@
     background: rgb(97, 93, 93);
     
 }
+
+.BackOpacity{ 
+    pointer-events: none;
+}
+

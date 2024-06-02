@@ -39,7 +39,8 @@ export default function SignUpFormComponent({setIsRegistered,isRegistered}){
             email,
             password
         }
-        const result=await handleRegisterUser(data);       
+        const result=await handleRegisterUser(data); 
+        console.log(result);      
         if(result?.status===201){
             toast.success(result?.data?.message)
             setIsRegistered(true);

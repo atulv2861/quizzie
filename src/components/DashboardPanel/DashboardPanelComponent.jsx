@@ -52,7 +52,9 @@ export default function DashboardPanelComponent() {
    {isConfirmQuizPopupOpen&&<ConfirmQuizComponent
    setIsConfirmQuizPopupOpen={setIsConfirmQuizPopupOpen}
    quizId={quizId}/>}
-    <div style={{opacity:isQuizPopupOpen||iscreateQuizPopupOpen||isConfirmQuizPopupOpen?'0.4':'1'}}>
+    <div style={{opacity:isQuizPopupOpen||iscreateQuizPopupOpen||isConfirmQuizPopupOpen?'0.4':'1'}}
+    className={(isQuizPopupOpen||iscreateQuizPopupOpen||isConfirmQuizPopupOpen)&&Style.BackOpacity}
+    >
 
         <div className={Style.Wrapper}
         >

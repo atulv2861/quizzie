@@ -19,7 +19,7 @@ export default function LiveQuizComponent() {
     const { handleGetQuizById } = useQuiz();
     const { quizById } = useSelector(state => state.quiz);
     const { id } = useParams();
-
+    let ref = useRef(null);
     useEffect(() => {
         const initial = async () => {
             await handleGetQuizById(id);
@@ -40,6 +40,7 @@ export default function LiveQuizComponent() {
     }
 
     const handleSubmit = async () => {
+        clearInterval(ref.current);
         let obj1 = questionAndOption;
         let obj2 = quizById?.quiz?.quizQuestions;
         let result = null;
@@ -114,7 +115,7 @@ export default function LiveQuizComponent() {
     }, [window.innerWidth]);
 
 
-    let ref = useRef(null);
+    
     useEffect(() => {
         const initial = () => {
             if (timer == questions?.timer) {
