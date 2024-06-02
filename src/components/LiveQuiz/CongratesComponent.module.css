@@ -7,7 +7,7 @@
     background: #fff;
     box-shadow: 0px 4px 36px 0px rgba(0, 0, 0, 0.22);
     z-index: 99;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 .Img {
@@ -43,13 +43,42 @@
     .Wrapper {
         overflow: hidden;
         position: fixed;
-        width: 300px;
-        height: 300px;
+        width: 300px;       
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);             
+    }
+
+    .Img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        height: 200px;
+    }
+
+    .Heading {        
+        font-weight: 600;
+        margin-top: 25px; 
+        text-align: center;
+    }
+
+    .Heading1 {        
+        font-weight: 600;
+        margin-top: 25px;
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .Wrapper {
+        overflow: hidden;
+        position: fixed;
+        width: 300px;       
         border-radius: 12px;
         background: #fff;
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
-        z-index: 99;
-        padding: 20px;
+        z-index: 99;       
     }
 
     .Img {
@@ -63,9 +92,6 @@
     .Heading {        
         font-weight: 600;
         margin-top: 25px;
-        /* display: flex;
-        justify-content: center;
-        align-items: center ; */
         text-align: center;
     }
 

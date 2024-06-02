@@ -116,12 +116,8 @@ export default function CreateQuizComponent({
 
     const handleRemoveQuestions = (item, e) => {
         e.preventDefault();
-        e.stopPropagation(); 
-        console.log(item)  
-        console.log(questions)    
-        console.log("=================================121") 
-        const remaningQuestions = questions.filter(value => value !== item);
-        console.log(remaningQuestions)        
+        e.stopPropagation();   
+        const remaningQuestions = questions.filter(value => value !== item);           
         setQuestions(remaningQuestions);
         if (item <= selectedQuestion) {
             setSelectedQuestion(prev => prev - 1);
