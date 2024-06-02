@@ -92,14 +92,14 @@ export default function CreateQuizComponent({
     }, [selectedQuestion]);
 
     const addQuestions = (e) => {
-        const fieldErrors = {};
-        if (!quizQuestions[selectedQuestion]?.question?.trim()) {
-            fieldErrors.question = true;
-        }
-        if (Object.keys(fieldErrors).length > 0) {
-            setFieldErrors(fieldErrors);
-            return;
-        }        
+        // const fieldErrors = {};
+        // if (!quizQuestions[selectedQuestion-1]?.question?.trim()) {
+        //     fieldErrors.question = true;
+        // }
+        // if (Object.keys(fieldErrors).length > 0) {
+        //     setFieldErrors(fieldErrors);
+        //     return;
+        // }        
         const noOfQuestions = questions[questions.length - 1];
         setQuestions([...questions, noOfQuestions + 1]);
         setQuizQuestions(prev => [...prev, { question: '', optionType: '', options: ["", ""], answer: '', timer: 0 }])
@@ -116,8 +116,12 @@ export default function CreateQuizComponent({
 
     const handleRemoveQuestions = (item, e) => {
         e.preventDefault();
-        e.stopPropagation();        
-        const remaningQuestions = questions.filter(value => value !== item);        
+        e.stopPropagation(); 
+        console.log(item)  
+        console.log(questions)    
+        console.log("=================================121") 
+        const remaningQuestions = questions.filter(value => value !== item);
+        console.log(remaningQuestions)        
         setQuestions(remaningQuestions);
         if (item <= selectedQuestion) {
             setSelectedQuestion(prev => prev - 1);
@@ -186,14 +190,13 @@ export default function CreateQuizComponent({
                                 className={Style.Slide}
                                 onClick={
                                     (e) => {
-                                        setSelectedQuestion(indx);
-                                        //         setisSelected(ind);
+                                        setSelectedQuestion(indx);                                        
                                     }}
                             >{indx + 1}</button> :
                             <button key={indx} className={Style.Slide} onClick={(e) => { setSelectedQuestion(indx); }}>{indx + 1}
                                 <img
                                     src={cross}
-                                    onClick={(e) => handleRemoveQuestions(indx, e)}
+                                    onClick={(e) => handleRemoveQuestions(item, e)}
                                     className={Style.Close}
                                     alt=""
                                 />

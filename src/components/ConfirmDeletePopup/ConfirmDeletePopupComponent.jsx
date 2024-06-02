@@ -45,7 +45,7 @@ export default function ConfirmDeletePopupComponent({ setIsConfirmDeletePopupOpe
 
             <div className={Style.DeleteConfirmation}>
                 <div className={Style.Message}>
-                    <h2>Are you confirm you want to delete?</h2>
+                    <h2 style={{textAlign:"center"}}>Are you confirm you want to delete?</h2>
                 </div>
                 <div className={Style.CancelnDeleteBtn}>
                     <button className={Style.Button} style={{ background: "#FF4B4B", color: "white" }} onClick={handleDelete}>Confirm Delete</button>

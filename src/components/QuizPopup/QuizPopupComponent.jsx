@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Style from "./QuizPopupComponent.module.css";
+import { toast } from "react-toastify";
 export default function QuizPopupComponent(
     {
         quizPopupPosition,
@@ -20,6 +21,15 @@ export default function QuizPopupComponent(
         const fieldErrors = {};
         if (!quizName?.trim()) {
             fieldErrors.quizName = true;
+            toast.error("Quiz name is required!");
+        }
+        if (quizName?.length<3) {
+            fieldErrors.quizName = true;
+            toast.error("Quiz name should be minimum 3 characters!");
+        }
+        if (quizName?.length>100) {
+            fieldErrors.quizName = true;
+            toast.error("Quiz name should not be maximum 100 characters!");
         }
         if (Object.keys(fieldErrors).length > 0) {
             setFieldErrors(fieldErrors);

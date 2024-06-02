@@ -27,7 +27,7 @@ export default function ConfirmQuizPopupComponent({ setIsConfirmQuizPopupOpen,qu
             </div>
             <div className={Style.QuizConfirmation}>
                 <div className={Style.Message}>
-                    <h2>Congrates your Quiz is Published!</h2>
+                    <h2 style={{textAlign:"center"}}>Congrates your Quiz is Published!</h2>
                 </div>
                 <div className={Style.QuizLink}>
                     Your link is here
