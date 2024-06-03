@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Style from "./QuizPopupComponent.module.css";
 import { toast } from "react-toastify";
 export default function QuizPopupComponent(
@@ -11,23 +12,29 @@ export default function QuizPopupComponent(
         quizName,
         setQuizName
     }
-){
-    const [fieldErrors,setFieldErrors]=useState();
-    const handleCancel=()=>{
+) {
+    const [fieldErrors, setFieldErrors] = useState();
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, []);
+
+    const handleCancel = () => {
         setIsQuizPopupOpen(false);
     }
 
-    const handleContinue=()=>{
+    const handleContinue = () => {
         const fieldErrors = {};
         if (!quizName?.trim()) {
             fieldErrors.quizName = true;
             toast.error("Quiz name is required!");
         }
-        if (quizName?.length<3) {
+        if (quizName?.length < 3) {
             fieldErrors.quizName = true;
             toast.error("Quiz name should be minimum 3 characters!");
         }
-        if (quizName?.length>100) {
+        if (quizName?.length > 100) {
             fieldErrors.quizName = true;
             toast.error("Quiz name should not be maximum 100 characters!");
         }
@@ -36,39 +43,42 @@ export default function QuizPopupComponent(
             return;
         }
         setIsQuizPopupOpen(false);
-        setIsCreateQuizPopupOpen(()=>true)        
+        setIsCreateQuizPopupOpen(() => true)
     }
 
-    const handleQuizType=(value)=>{
+    const handleQuizType = (value) => {
         setQuizzieType(value);
     }
 
-    
-    const handleQuizName=(e)=>{
+
+    const handleQuizName = (e) => {
         setQuizName(e.target.value);
     }
-    return(
+
+
+    return (
         <div className={Style.Wrapper}
-        style={{left:`${quizPopupPosition?.left}px`, top:`${quizPopupPosition?.top}px`}}>
+            style={{ left: `${quizPopupPosition?.left}px`, top: `${quizPopupPosition?.top}px` }}>
             <div className={Style.InputContainer}>
-                <input 
-                type="text"
-                placeholder="Quiz Name"
-                value={quizName}
-                onChange={handleQuizName}
-                className={`${Style.InputBox} ${fieldErrors?.quizName && Style.ErrorMsg}`}/>
+                <input
+                    type="text"
+                    placeholder="Quiz Name"
+                    value={quizName}
+                    ref={inputRef}
+                    onChange={handleQuizName}
+                    className={`${Style.InputBox} ${fieldErrors?.quizName && Style.ErrorMsg}`} />
             </div>
             <div className={Style.BtnContainer}>
                 <div className={Style.QuizHeading}>Quiz Type</div>
                 <div className={Style.QuizType}>
-                    <button className={`${Style.Btn} ${quizzieType==="Q&A"&&Style.BtnTextColor}`} onClick={e=>handleQuizType('Q&A')}>Q&A</button>
-                    <button className={`${Style.Btn} ${quizzieType==="Poll_Type"&&Style.BtnTextColor}`} onClick={e=>handleQuizType('Poll_Type')}>Poll Type</button>
+                    <button className={`${Style.Btn} ${quizzieType === "Q&A" && Style.BtnTextColor}`} onClick={e => handleQuizType('Q&A')}>Q&A</button>
+                    <button className={`${Style.Btn} ${quizzieType === "Poll_Type" && Style.BtnTextColor}`} onClick={e => handleQuizType('Poll_Type')}>Poll Type</button>
                 </div>
             </div>
             <div className={Style.BtnContainer}>
-            <button className={Style.Button} onClick={handleCancel}>Cancel</button>
-            <button className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button>
-            {/* <button disabled={quizName?false:true} className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button> */}
+                <button className={Style.Button} onClick={handleCancel}>Cancel</button>
+                <button className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button>
+                {/* <button disabled={quizName?false:true} className={`${Style.Button} ${Style.BtnTextColor}`} onClick={handleContinue}>Continue</button> */}
             </div>
         </div>
     )

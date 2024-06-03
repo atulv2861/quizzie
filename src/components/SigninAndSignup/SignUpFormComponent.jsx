@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Style from "./SignUpFormComponent.module.css";
 import useUser from "../Hook/useUser";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 export default function SignUpFormComponent({setIsRegistered,isRegistered}){
     const [name,setName]=useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword,setConfirmPassword]=useState("");
-    const [fieldErrors, setFieldErrors] = useState();
-    const { userData } = useSelector((state) => state.user);
+    const [fieldErrors, setFieldErrors] = useState();    
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, []);
+
     const {handleRegisterUser}=useUser();
     const handleSignUp= async()=>{
         const res = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,6 +67,7 @@ export default function SignUpFormComponent({setIsRegistered,isRegistered}){
             placeholder="Name"
             value={name}
             onChange={e=>setName(e.target.value)}
+            ref={inputRef}
             /></div>
         </div>
         <div className={Style.FieldWrapper}>

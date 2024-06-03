@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect,useRef} from "react";
 import Style from "./SignInFormComponent.module.css";
 import { useSelector } from "react-redux";
 import useUser from "../Hook/useUser";
@@ -10,6 +10,12 @@ export default function SignInFormComponent({setIsLoggedIn}){
     const [fieldErrors, setFieldErrors] = useState();
     const { userData } = useSelector((state) => state.user);
     const {handleLoginUser}=useUser();
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, []);
+
     const handleSignIn=async()=>{
         const res = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const fieldErrors = {};
@@ -58,6 +64,7 @@ export default function SignInFormComponent({setIsLoggedIn}){
             type="text"
             placeholder="Email"
             onChange={e=>setEmail(e.target.value)}
+            ref={inputRef}
             />
             </div>
         </div>

@@ -4,7 +4,6 @@ import DashboardComponent from "../Dashboard/DashboardComponent";
 import AnalyticsComponent from "../Analytics/AnalyticsComponent";
 import CreateQuizComponent from "../CreateQuiz/CreateQuizComponent";
 import QuestionsAnalysisComponent from "../Analytics/QuestionAnalysis/QuestionsAnalysisComponent";
-import PollQuestionComponent from "../Analytics/Questions/PollQuestionComponent";
 import Style from "./DashboardPanelComponent.module.css";
 import QuizPopupComponent from "../QuizPopup/QuizPopupComponent";
 import ConfirmQuizComponent from "../ConfirmQuizPopup/ConfirmQuizPopupComponent";
@@ -16,7 +15,7 @@ export default function DashboardPanelComponent() {
     const [isConfirmQuizPopupOpen,setIsConfirmQuizPopupOpen]=useState(false);
     const [quizzieType,setQuizzieType]=useState("Q&A");
     const [quizId,setQuizId]=useState(null);
-    const [quizName,setQuizName]=useState(null);
+    const [quizName,setQuizName]=useState("");
     const navigate=useNavigate();
     useEffect(()=>{
         let left = (window.innerWidth - 450) / 2;

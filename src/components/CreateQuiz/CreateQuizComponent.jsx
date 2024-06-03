@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Style from "./CreateQuizComponent.module.css";
 import del from "../../assets/delete.svg";
 import cross from "../../assets/cross.svg";
@@ -21,10 +21,15 @@ export default function CreateQuizComponent({
     const [quizQuestions, setQuizQuestions] = useState([
         { question: '', optionType: '', options: [], answer: '', timer: 0 }
     ]);
-    const [timer, setTimer] = useState('0');
     const { handleCreateQuiz, handleGetQuizByUserId } = useQuiz();
     const { createdQuiz } = useSelector((state) => state.quiz);
     const [fieldErrors,setFieldErrors]=useState();
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, []);
+
     const handleRadioChange = (indx) => {
         setSelectedRadioBtn(indx);
     };
@@ -105,8 +110,7 @@ export default function CreateQuizComponent({
         setQuizQuestions(prev => [...prev, { question: '', optionType: '', options: ["", ""], answer: '', timer: 0 }])
         setSelectedQuestion(noOfQuestions + 1)
         setNoOfOptions([1, 2]);
-        setSelectedRadioBtn(null);
-        setTimer('0');
+        setSelectedRadioBtn(null);       
         setOptionType(pre => pre);        
     }
 
@@ -139,9 +143,6 @@ export default function CreateQuizComponent({
         setNoOfOptions(remaningOptions);
     }
 
-    const handleTimer = (value) => {
-        setTimer(value);
-    }
 
     useEffect(() => {
         const values = [...quizQuestions];
@@ -210,6 +211,7 @@ export default function CreateQuizComponent({
                     placeholder="Quiz Question"
                     className={`${Style.InputBox} ${fieldErrors?.question && Style.ErrorMsg}`}
                     name="question"
+                    ref={inputRef}
                     value={quizQuestions[selectedQuestion]?.question}
                     onChange={e => handleQuizQuestionChange(0, e)}
                 />
@@ -413,13 +415,13 @@ export default function CreateQuizComponent({
                     <div>Timer</div>
                     <div><button
                         className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer == "0" && Style.TimerBtnColor}`}
-                        onClick={e => { handleTimer('0'); handleQuizQuestionChange(0, e) }} name="timer" value="0">Off</button></div>
+                        onClick={e => {handleQuizQuestionChange(0, e) }} name="timer" value="0">Off</button></div>
                     <div><button
                         className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer == "5" && Style.TimerBtnColor}`}
-                        onClick={e => { handleTimer('5'); handleQuizQuestionChange(0, e) }} name="timer" value="5">5 Sec</button></div>
+                        onClick={e => {handleQuizQuestionChange(0, e) }} name="timer" value="5">5 Sec</button></div>
                     <div><button
                         className={`${Style.TimerButton} ${quizQuestions[selectedQuestion]?.timer == "10" && Style.TimerBtnColor}`}
-                        onClick={e => { handleTimer('10'); handleQuizQuestionChange(0, e) }} name="timer" value="10">10 Sec</button></div>
+                        onClick={e => {handleQuizQuestionChange(0, e) }} name="timer" value="10">10 Sec</button></div>
                 </div>
             </div> : <div className={Style.Options} style={{ marginLeft: "10px" }}>
                 {optionType === "Text" && <div className={Style.AddOptions}>
