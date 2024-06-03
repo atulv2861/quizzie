@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Style from "./LiveQuizComponent.module.css";
 import { useParams } from "react-router-dom";
 import useQuiz from "../Hook/useQuiz";
@@ -18,14 +19,13 @@ export default function LiveQuizComponent() {
     const { handleGetQuizById } = useQuiz();
     const { quizById } = useSelector(state => state.quiz);
     const { id } = useParams();
-    let ref = useRef(null);
 
     useEffect(() => {
         const initial = async () => {
             await handleGetQuizById(id);
         }
         initial();
-    }, [quizById]);
+    }, []);
 
     useEffect(() => {
         if (quizById?.success === true)
@@ -40,7 +40,6 @@ export default function LiveQuizComponent() {
     }
 
     const handleSubmit = async () => {
-        clearInterval(ref.current);
         let obj1 = questionAndOption;
         let obj2 = quizById?.quiz?.quizQuestions;
         let result = null;
@@ -104,18 +103,18 @@ export default function LiveQuizComponent() {
 
     useEffect(() => {
         if (window.innerWidth <= 460) {
-            // let left = (window.innerWidth - 400) / 2;
-            // let top = (window.innerHeight - 550) / 2;
+            let left = (window.innerWidth - 400) / 2;
+            let top = (window.innerHeight - 550) / 2;
             setLiveQuizPopupPosition({ left: 0, top: 0 });
         } else {
             let left = (window.innerWidth - 600) / 2;
-            let top = (window.innerHeight - 550) / 2;
+            let top = (window.innerHeight - 450) / 2;
             setLiveQuizPopupPosition({ left: left, top: top });
         }
     }, [window.innerWidth]);
 
 
-    
+    let ref = useRef(null);
     useEffect(() => {
         const initial = () => {
             if (timer == questions?.timer) {
@@ -168,7 +167,7 @@ export default function LiveQuizComponent() {
                     {questions?.optionType === "Text" && <>
                         {questions?.options?.map((item, indx) => (
                             <div className={`${Style.Card} ${selectedOption === indx && Style.SelectedOption}`}
-                                onClick={e => handleOptionSelection(questions?._id, indx)} key={indx}>
+                                onClick={e => handleOptionSelection(questions?._id, indx)}>
                                 <div className={Style.Details}>
                                     <p>{item}</p>
                                 </div>
