@@ -29,14 +29,17 @@ export default function QuizPopupComponent(
         if (!quizName?.trim()) {
             fieldErrors.quizName = true;
             toast.error("Quiz name is required!");
+            return;
         }
         if (quizName?.length < 3) {
             fieldErrors.quizName = true;
             toast.error("Quiz name should be minimum 3 characters!");
+            return;
         }
         if (quizName?.length > 100) {
             fieldErrors.quizName = true;
             toast.error("Quiz name should not be maximum 100 characters!");
+            return;
         }
         if (Object.keys(fieldErrors).length > 0) {
             setFieldErrors(fieldErrors);
