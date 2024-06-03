@@ -103,8 +103,8 @@ export default function LiveQuizComponent() {
 
     useEffect(() => {
         if (window.innerWidth <= 460) {
-            let left = (window.innerWidth - 400) / 2;
-            let top = (window.innerHeight - 550) / 2;
+            // let left = (window.innerWidth - 400) / 2;
+            // let top = (window.innerHeight - 550) / 2;
             setLiveQuizPopupPosition({ left: 0, top: 0 });
         } else {
             let left = (window.innerWidth - 600) / 2;
