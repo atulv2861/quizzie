@@ -22,7 +22,7 @@ export default function DashboardPanelComponent() {
         let left = (window.innerWidth - 450) / 2;
         let top = (window.innerHeight - 350) / 2;
         setQuizPopupPosition({ left: left, top: top });
-    },[isQuizPopupOpen,iscreateQuizPopupOpen])
+    },[isQuizPopupOpen,iscreateQuizPopupOpen,window.innerWidth])
 
     useEffect(()=>{
         

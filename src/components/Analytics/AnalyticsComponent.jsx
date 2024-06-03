@@ -78,7 +78,7 @@ export default function AnalyticsComponent() {
                     <tbody>
                         {
                             quizByUserId?.quizzes?.map((item,index) =>(
-                                <tr className={(index+1)%2===0?Style.tBody:Style.tInvBody}>
+                                <tr className={(index+1)%2===0?Style.tBody:Style.tInvBody} key={index}>
                                     <td>{index+1}</td>
                                     <td> {item.quizName}</td>
                                     <td>{formatedDate(item.createdOn)}</td>

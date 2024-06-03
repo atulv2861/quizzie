@@ -38,7 +38,7 @@ export default function ConfirmDeletePopupComponent({ setIsConfirmDeletePopupOpe
         let left = (window.innerWidth - 450) / 2;
         let top = (window.innerHeight - 200) / 2;
         setConfirmQuizPopupPosition({ left: left, top: top });
-    }, [])
+    }, [window.innerWidth])
     return (
         <div className={Style.Wrapper}
             style={{ left: `${confirmQuizPopupPosition?.left}px`, top: `${confirmQuizPopupPosition?.top}px` }}>

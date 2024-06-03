@@ -18,7 +18,7 @@ export default function ConfirmQuizPopupComponent({ setIsConfirmQuizPopupOpen,qu
         let left = (window.innerWidth - 450) / 2;
         let top = (window.innerHeight - 270) / 2;
         setConfirmQuizPopupPosition({ left: left, top: top });
-    }, [])
+    }, [window.innerWidth])
     return (
         <div className={Style.Wrapper}
             style={{ left: `${confirmQuizPopupPosition?.left}px`, top: `${confirmQuizPopupPosition?.top}px` }}>
