@@ -5,13 +5,17 @@ import cross from "../../assets/cross.svg";
 import useQuiz from "../Hook/useQuiz";
 import { useSelector } from "react-redux";
 import getStorage from "../../Service/StorageService";
+import { updateQuiz } from "../../Service/quiz/updateQuiz";
+import { toast } from "react-toastify";
 export default function CreateQuizComponent({
     setIsCreateQuizPopupOpen,
     setIsConfirmQuizPopupOpen,
     quizzieType,
     quizName,
     setQuizId,
-    setQuizName }) {
+    setQuizName,
+    quizId,
+    setQuizzieType}) {
     const [createQuizPopupPosition, setCreateQuizPopupPosition] = useState();
     const [questions, setQuestions] = useState([0]);
     const [noOfOptions, setNoOfOptions] = useState([1, 2]);
@@ -19,10 +23,10 @@ export default function CreateQuizComponent({
     const [selectedQuestion, setSelectedQuestion] = useState(0);
     const [selectedRadioBtn, setSelectedRadioBtn] = useState(null);
     const [quizQuestions, setQuizQuestions] = useState([
-        { question: '', optionType: '', options: [], answer: '', timer: 0 }
+        { question: '', optionType: optionType, options: [], answer: '', timer: 0 }
     ]);
     const { handleCreateQuiz, handleGetQuizByUserId } = useQuiz();
-    const { createdQuiz } = useSelector((state) => state.quiz);
+    const { createdQuiz,quizByUserId } = useSelector((state) => state.quiz);
     const [fieldErrors,setFieldErrors]=useState();
     const inputRef = useRef(null);
 
@@ -52,6 +56,21 @@ export default function CreateQuizComponent({
             quizName: quizName,
             quizType: quizzieType,
             quizQuestions: quizQuestions
+        }        
+        if(quizId){
+            const data = { 
+                quizQuestions: quizQuestions
+            }           
+            const res=await updateQuiz(quizId,data);            
+            if(res?.status===201){
+                const user = JSON.parse(getStorage("user"));                         
+                await handleGetQuizByUserId(user?._id);
+                setIsCreateQuizPopupOpen(false);
+                setIsConfirmQuizPopupOpen(true);
+                return;
+            }
+            toast.error(res?.data?.message);
+            
         }
         await handleCreateQuiz(data);
         setIsCreateQuizPopupOpen(false);
@@ -84,11 +103,12 @@ export default function CreateQuizComponent({
         const answer = question?.answer;
         const optionSize = option?.length;
         const indxOfAns = option?.indexOf(answer);
-        const arr = Array.from({ length: optionSize ? optionSize : 2 }, (v, i) => i);        
+        const arr = Array.from({ length: optionSize ? optionSize : 2 }, (v, i) => i);  
+        //alert("outer======================="+indxOfAns)      
         setNoOfOptions(arr);
         if (optionType === "Text_ImageUrl") {
             const indxOfAns = option.findIndex(item => item.text === answer.text && item.img === answer.img);
-
+            //alert("inn=================="+indxOfAns)
             setSelectedRadioBtn(indxOfAns);
             return;
         }
@@ -107,28 +127,28 @@ export default function CreateQuizComponent({
         // }        
         const noOfQuestions = questions[questions.length - 1];
         setQuestions([...questions, noOfQuestions + 1]);
-        setQuizQuestions(prev => [...prev, { question: '', optionType: '', options: ["", ""], answer: '', timer: 0 }])
+        setQuizQuestions(prev => [...prev, { question: '', optionType: optionType, options: ["", ""], answer: '', timer: 0 }])
         setSelectedQuestion(noOfQuestions + 1)
         setNoOfOptions([1, 2]);
         setSelectedRadioBtn(null);       
-        setOptionType(pre => pre);        
+        //setOptionType(pre => pre);             
     }
 
     const handleOptionType = (e) => {
-        setOptionType(e.target.value);
+        quizQuestions[selectedQuestion]['optionType']=e.target.value;
+        //setOptionType(e.target.value);
     }
 
-    const handleRemoveQuestions = (item, e) => {
+    const handleRemoveQuestions = (val, e) => {
         e.preventDefault();
-        e.stopPropagation();   
-        const remaningQuestions = questions.filter(value => value !== item);           
+        e.stopPropagation();      
+        const remaningQuestions = questions.filter(value => value !== val);               
         setQuestions(remaningQuestions);
-        if (item <= selectedQuestion) {
+        if (val <= selectedQuestion) {
             setSelectedQuestion(prev => prev - 1);
         }
-        let updatedQuestion = quizQuestions;
-        updatedQuestion.splice(item, 1);
-        setQuizQuestions(updatedQuestion);        
+        let updatedQuestion = quizQuestions?.filter((item,index)=>val!==index&&item);      
+        setQuizQuestions(updatedQuestion);               
     }
 
     const handleAddOptions = () => {
@@ -145,10 +165,11 @@ export default function CreateQuizComponent({
 
 
     useEffect(() => {
-        const values = [...quizQuestions];
-        values[selectedQuestion]['optionType'] = optionType;
-        setQuizQuestions(values);
-    }, [questions]);
+        //chnage option types
+      let values = quizQuestions;     
+      values[selectedQuestion].optionType = optionType;
+      setQuizQuestions(values);
+    }, [optionType]);
 
     const handleQuizQuestionChange = (indx, e) => {
         const values = [...quizQuestions];     
@@ -175,6 +196,21 @@ export default function CreateQuizComponent({
         }        
         setQuizQuestions(values);        
     };
+
+    useEffect(() => {
+        const initial = () => {            
+              const updateQuiz = quizByUserId?.quizzes?.filter(item => item?._id === quizId);  
+              setOptionType(updateQuiz[0]?.quizQuestions[0]?.optionType);
+              setQuizzieType(updateQuiz[0]?.quizType);
+              setSelectedQuestion(updateQuiz[0]?.quizQuestions?.length-1);              
+              const noOfQuestions = Array(updateQuiz[0]?.quizQuestions?.length).fill().map((_, index) => index);
+              setQuestions(noOfQuestions);
+              setQuizQuestions(updateQuiz[0]?.quizQuestions);      
+        }
+        if (quizId) {            
+            initial();
+        }
+    }, [quizId]);
 
     return (
         <div className={Style.Wrapper}
@@ -221,24 +257,24 @@ export default function CreateQuizComponent({
                 <div className={Style.OptionType}>
                     <label>
                         <input type="radio"
-                            onChange={e => { handleOptionType(e); handleQuizQuestionChange(0, e) }} checked={optionType === "Text" && true} name="optionType" value="Text" />
+                            onChange={e => { handleOptionType(e);}} checked={quizQuestions[selectedQuestion]?.optionType === "Text" && true} name="optionType" value="Text" />
                         Text
                     </label>
                     <label>
-                        <input type="radio" onChange={e => { handleOptionType(e); handleQuizQuestionChange(0, e) }} checked={optionType === "ImageUrl" && true} name="optionType" value="ImageUrl" />
+                        <input type="radio" onChange={e => { handleOptionType(e);}} checked={quizQuestions[selectedQuestion]?.optionType === "ImageUrl" && true} name="optionType" value="ImageUrl" />
                         Image URL
                     </label>
                     <label>
-                        <input type="radio" onChange={e => { handleOptionType(e); handleQuizQuestionChange(0, e) }} checked={optionType === "Text_ImageUrl" && true} name="optionType" value="Text_ImageUrl" />
+                        <input type="radio" onChange={e => { handleOptionType(e);}} checked={quizQuestions[selectedQuestion]?.optionType === "Text_ImageUrl" && true} name="optionType" value="Text_ImageUrl" />
                         Text & Image URL
                     </label>
 
                 </div>
             </div>
             {quizzieType === "Q&A" ? <div className={Style.Options}>
-                {optionType === "Text" && <div className={Style.AddOptions}>
+                {quizQuestions[selectedQuestion]?.optionType === "Text" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
-                        item <= 2 ?
+                        item < 2 ?
                             <div className="radio-label" key={indx}>
                                 <input
                                     type="radio"
@@ -291,9 +327,9 @@ export default function CreateQuizComponent({
                     }
 
                 </div>}
-                {optionType === "ImageUrl" && <div className={Style.AddOptions}>
+                {quizQuestions[selectedQuestion]?.optionType === "ImageUrl" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
-                        item <= 2 ?
+                        item < 2 ?
                             <div className="radio-label">
                                 <input
                                     type="radio"
@@ -343,9 +379,9 @@ export default function CreateQuizComponent({
                         </div>
                     }
                 </div>}
-                {optionType === "Text_ImageUrl" && <div className={Style.AddOptions}>
+                {quizQuestions[selectedQuestion]?.optionType === "Text_ImageUrl" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
-                        item <= 2 ?
+                        item < 2 ?
                             <div className="radio-label">
                                 <input
                                     type="radio"
@@ -426,7 +462,7 @@ export default function CreateQuizComponent({
             </div> : <div className={Style.Options} style={{ marginLeft: "10px" }}>
                 {optionType === "Text" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
-                        item <= 2 ?
+                        item < 2 ?
                             <div className="radio-label" key={indx}>
                                 <input
                                     type="radio"
@@ -478,7 +514,7 @@ export default function CreateQuizComponent({
                 </div>}
                 {optionType === "ImageUrl" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
-                        item <= 2 ?
+                        item < 2 ?
                             <div className="radio-label" key={indx}>
                                 <input
                                     type="radio"
@@ -530,7 +566,7 @@ export default function CreateQuizComponent({
                 </div>}
                 {optionType === "Text_ImageUrl" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
-                        item <= 2 ?
+                        item < 2 ?
                             <div className="radio-label" key={indx}>
                                 <input
                                     type="radio"

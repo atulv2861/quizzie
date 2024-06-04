@@ -178,8 +178,8 @@ export default function LiveQuizComponent() {
                         {questions?.options?.map((item, indx) => (
                             <div className={`${Style.Card} ${selectedOption === indx && Style.SelectedOption}`}
                                 onClick={e => handleOptionSelection(questions?._id, indx)}>
-                                <div className={Style.Details}>
-                                    <img src={item ? item : ans} style={{ width: "150px", height: "40px" }} alt="option" />
+                                <div className={Style.Details}>                                    
+                                    <img src={item ? item : ans} style={{ width: "150px", height: "40px" }} alt="option"/>
                                 </div>
                             </div>
                         ))}
@@ -189,7 +189,7 @@ export default function LiveQuizComponent() {
                             <div className={`${Style.Card} ${selectedOption === indx && Style.SelectedOption}`}
                                 onClick={e => handleOptionSelection(questions?._id, indx)}>
                                 <div className={Style.Details}>
-                                    <p>{item && item.text}</p>
+                                    <p>{item && item.text}</p>&nbsp;&nbsp;
                                     <img src={item ? item.img : ans} style={{ width: "75px", height: "40px" }} alt="option" />
                                 </div>
                             </div>
