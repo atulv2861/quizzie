@@ -54,7 +54,7 @@ export default function LiveQuizComponent() {
                         isCorrect: item2.optionType === "Text_ImageUrl" ? item1?.option?.text === item2?.answer?.text && item1?.option?.img === item2?.answer?.img : item1.option === item2.answer
                     };
                 });
-            
+
             data = {
                 quizId: quizById?.quiz?._id,
                 quizType: quizById?.quiz?.quizType,
@@ -92,9 +92,10 @@ export default function LiveQuizComponent() {
                 assessment: result
             };
         }
+        
         let res = null;
         res = await quizAssessment(data);
-    
+        
         if (res?.data?.success)
             setIsCongratesPopupOpen(true);
     }
@@ -132,7 +133,7 @@ export default function LiveQuizComponent() {
                     handleSubmit();
                 }
             }
-          
+
             if (questions?.timer <= 0)
                 clearInterval(ref.current);
         }
@@ -154,7 +155,7 @@ export default function LiveQuizComponent() {
         {isCongratesPopupOpen && <CongratesComponent score={score} />}
         {!isCongratesPopupOpen && <div className={Style.Wrapper}
             style={{ left: `${liveQuizPopupPosition?.left}px`, top: `${liveQuizPopupPosition?.top}px` }}
-            >
+        >
             <>
                 <div className={Style.Heading}>
                     <div><h3>0{currQuestion + 1}/0{quizById?.quiz?.quizQuestions?.length}</h3></div>
@@ -178,8 +179,8 @@ export default function LiveQuizComponent() {
                         {questions?.options?.map((item, indx) => (
                             <div className={`${Style.Card} ${selectedOption === indx && Style.SelectedOption}`}
                                 onClick={e => handleOptionSelection(questions?._id, indx)}>
-                                <div className={Style.Details}>                                    
-                                    <img src={item ? item : ans} style={{ width: "150px", height: "40px" }} alt="option"/>
+                                <div className={Style.Details}>
+                                    <img src={item ? item : ans} style={{ width: "150px", height: "40px" }} alt="option" />
                                 </div>
                             </div>
                         ))}

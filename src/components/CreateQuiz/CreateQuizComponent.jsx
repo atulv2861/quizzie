@@ -136,7 +136,7 @@ export default function CreateQuizComponent({
 
     const handleOptionType = (e) => {
         quizQuestions[selectedQuestion]['optionType']=e.target.value;
-        //setOptionType(e.target.value);
+        setOptionType(e.target.value);
     }
 
     const handleRemoveQuestions = (val, e) => {
@@ -460,7 +460,7 @@ export default function CreateQuizComponent({
                         onClick={e => {handleQuizQuestionChange(0, e) }} name="timer" value="10">10 Sec</button></div>
                 </div>
             </div> : <div className={Style.Options} style={{ marginLeft: "10px" }}>
-                {optionType === "Text" && <div className={Style.AddOptions}>
+                {quizQuestions[selectedQuestion]?.optionType === "Text" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
                         item < 2 ?
                             <div className="radio-label" key={indx}>
@@ -512,7 +512,7 @@ export default function CreateQuizComponent({
                         </div>
                     }
                 </div>}
-                {optionType === "ImageUrl" && <div className={Style.AddOptions}>
+                {quizQuestions[selectedQuestion]?.optionType === "ImageUrl" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
                         item < 2 ?
                             <div className="radio-label" key={indx}>
@@ -564,7 +564,7 @@ export default function CreateQuizComponent({
                         </div>
                     }
                 </div>}
-                {optionType === "Text_ImageUrl" && <div className={Style.AddOptions}>
+                {quizQuestions[selectedQuestion]?.optionType === "Text_ImageUrl" && <div className={Style.AddOptions}>
                     {noOfOptions && noOfOptions?.map((item, indx) => (
                         item < 2 ?
                             <div className="radio-label" key={indx}>
@@ -635,7 +635,7 @@ export default function CreateQuizComponent({
             </div>}
             <div className={Style.CancelnCreateBtn}>
                 <button className={Style.Button} onClick={handleCancel}>Cancel</button>
-                <button className={Style.Button} style={{ background: "#60B84B", color: "white" }} onClick={handleCreateQuizzes}>Create Quiz</button>
+                <button className={Style.Button} style={{ background: "#60B84B", color: "white" }} onClick={handleCreateQuizzes}>{quizId?'Update Quiz':'Create Quiz'}</button>
             </div>
         </div>
     )
